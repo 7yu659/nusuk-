@@ -1,0 +1,6 @@
+{
+  "name": "Nusuk Auto",
+  "description": "Interactive preview of Nusuk Auto — an Android helper that enters Umrah key codes and plays the Nusuk door quiz automatically.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
