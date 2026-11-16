@@ -65,8 +65,8 @@ export default function App() {
     },
     {
       id: 101,
-      title: 'Version 2.1 released',
-      body: 'Customizable thinking time range and improved key extraction.',
+      title: 'Version 2.7 released',
+      body: 'Minimal emerald design, updated branding, and refined overlay workflow.',
       at: Date.now() - 86400_000,
       unread: false,
     },
@@ -135,7 +135,7 @@ export default function App() {
             prev.mode === 'QUIZ'
               ? prev.humanPace
                 ? `Thinking... ${Math.max(1, Math.ceil(((100 - nextPct) / 100) * minSec))}s`
-                : `Selecting Door ${((prev.completedCount % 3) + 1)}...`
+                : `Selecting Door ${(prev.completedCount % 3) + 1}...`
               : `Checking ${prev.activeCode} (${prev.completedCount + 1}/${prev.targetCount})`;
           return {
             ...prev,
@@ -144,7 +144,6 @@ export default function App() {
           };
         }
 
-        // Complete one item
         const nextDone = prev.completedCount + 1;
         const nextCorrect = prev.mode === 'QUIZ' ? prev.correctCount + 1 : prev.correctCount;
         const nextEntry = quizEntries[nextDone % Math.max(1, quizEntries.length)] || firstQuiz;
@@ -281,26 +280,26 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F5F4] text-[#1C1917] flex flex-col">
+    <div className="min-h-screen bg-[#F6F7F6] text-[#18181B] flex flex-col">
       {/* Three-Zone Top Navigation Bar */}
-      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-[#E7E5E4]">
+      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-[#E5E7EB]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-8">
           <button
             type="button"
             onClick={() => handleNavClick('home')}
-            className="text-[19px] font-semibold tracking-tight text-[#1C1917] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#3A6A98] rounded-md"
+            className="text-[19px] font-semibold tracking-tight text-[#18181B] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#15803D] rounded-md"
           >
             Nusuk Auto
           </button>
 
-          <nav className="hidden md:flex items-center gap-6 text-[14px] font-medium text-[#78716C]">
+          <nav className="hidden md:flex items-center gap-6 text-[14px] font-medium text-[#71717A]">
             <button
               type="button"
               onClick={() => handleNavClick('home')}
               className={`py-2 whitespace-nowrap shrink-0 transition-colors border-b-2 ${
                 screen === 'home'
-                  ? 'text-[#1C1917] border-[#3A6A98]'
-                  : 'border-transparent hover:text-[#1C1917]'
+                  ? 'text-[#18181B] border-[#15803D]'
+                  : 'border-transparent hover:text-[#18181B]'
               }`}
             >
               {t(lang, 'Home')}
@@ -310,8 +309,8 @@ export default function App() {
               onClick={() => handleNavClick('stats')}
               className={`py-2 whitespace-nowrap shrink-0 transition-colors border-b-2 ${
                 screen === 'stats'
-                  ? 'text-[#1C1917] border-[#3A6A98]'
-                  : 'border-transparent hover:text-[#1C1917]'
+                  ? 'text-[#18181B] border-[#15803D]'
+                  : 'border-transparent hover:text-[#18181B]'
               }`}
             >
               {t(lang, 'Statistics')}
@@ -321,8 +320,8 @@ export default function App() {
               onClick={() => handleNavClick('simulator')}
               className={`py-2 whitespace-nowrap shrink-0 transition-colors border-b-2 ${
                 desktopSection === 'simulator'
-                  ? 'text-[#1C1917] border-[#3A6A98]'
-                  : 'border-transparent hover:text-[#1C1917]'
+                  ? 'text-[#18181B] border-[#15803D]'
+                  : 'border-transparent hover:text-[#18181B]'
               }`}
             >
               {lang === 'bn' ? 'ওভারলে সিমুলেটর' : 'Widget Simulator'}
@@ -332,8 +331,8 @@ export default function App() {
               onClick={() => handleNavClick('quizBank')}
               className={`py-2 whitespace-nowrap shrink-0 transition-colors border-b-2 ${
                 desktopSection === 'quizBank'
-                  ? 'text-[#1C1917] border-[#3A6A98]'
-                  : 'border-transparent hover:text-[#1C1917]'
+                  ? 'text-[#18181B] border-[#15803D]'
+                  : 'border-transparent hover:text-[#18181B]'
               }`}
             >
               {lang === 'bn' ? 'কুইজ ব্যাংক' : 'Quiz Bank'}
@@ -343,7 +342,7 @@ export default function App() {
           <button
             type="button"
             onClick={() => setLang((prev) => (prev === 'en' ? 'bn' : 'en'))}
-            className="px-4 py-2 min-h-[40px] rounded-lg bg-[#3A6A98] hover:bg-[#325C84] text-white text-[13px] font-medium whitespace-nowrap shrink-0 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3A6A98]"
+            className="px-4 py-2 min-h-[40px] rounded-lg bg-[#15803D] hover:bg-[#166534] text-white text-[13px] font-medium whitespace-nowrap shrink-0 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#15803D]"
           >
             {lang === 'en' ? 'বাংলা ভাষা' : 'English'}
           </button>
@@ -359,7 +358,7 @@ export default function App() {
               mobileTab === 'app' ? 'block' : 'hidden lg:block'
             }`}
           >
-            <div className="rounded-[28px] border border-[#D6D3D1] bg-[#F5F5F4] shadow-md overflow-hidden">
+            <div className="rounded-[28px] border border-[#D4D4D8] bg-[#F6F7F6] shadow-md overflow-hidden">
               <PhoneApp
                 lang={lang}
                 onLangChange={setLang}
@@ -412,9 +411,9 @@ export default function App() {
             </div>
 
             {/* Setup Permission Simulator Controls */}
-            <div className="rounded-2xl bg-white border border-[#E7E5E4] p-4 space-y-3">
+            <div className="rounded-2xl bg-white border border-[#E5E7EB] p-4 space-y-3">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-[14px] font-semibold text-[#1C1917]">
+                <span className="text-[14px] font-semibold text-[#18181B]">
                   {lang === 'bn' ? 'অ্যান্ড্রয়েড পারমিশন টেস্ট' : 'Permission State Toggle'}
                 </span>
                 <button
@@ -426,7 +425,7 @@ export default function App() {
                       overlayAllowed: true,
                     })
                   }
-                  className="text-[12px] font-medium text-[#3A6A98] hover:underline"
+                  className="text-[12px] font-medium text-[#15803D] hover:underline"
                 >
                   {lang === 'bn' ? 'সব চালু করুন' : 'Enable all'}
                 </button>
@@ -449,7 +448,7 @@ export default function App() {
                       }
                       className={`px-2.5 py-2 min-h-[40px] rounded-xl border text-[12px] font-medium transition-colors flex items-center justify-center gap-1.5 ${
                         active
-                          ? 'bg-[#EAF2F9] border-[#3A6A98]/40 text-[#2C5379]'
+                          ? 'bg-[#ECFDF5] border-[#BBF7D0] text-[#166534]'
                           : 'bg-[#FFFBEB] border-[#FCD34D] text-[#92400E]'
                       }`}
                     >
@@ -471,7 +470,7 @@ export default function App() {
             {/* Section Switcher on Desktop */}
             <div className="hidden lg:flex items-center justify-between gap-4">
               <div>
-                <h1 className="text-[24px] font-semibold text-[#1C1917] tracking-tight">
+                <h1 className="text-[24px] font-semibold text-[#18181B] tracking-tight">
                   {desktopSection === 'simulator'
                     ? lang === 'bn'
                       ? 'ভাসমান ওভারলে ও অটোমেশন প্রিভিউ'
@@ -480,21 +479,21 @@ export default function App() {
                     ? 'অফলাইন কুইজ ডেটাবেজ'
                     : 'Offline Quiz Answer Bank'}
                 </h1>
-                <p className="text-[14px] text-[#78716C] mt-0.5">
+                <p className="text-[14px] text-[#71717A] mt-0.5">
                   {lang === 'bn'
-                    ? 'Android 8.0+ · Java 17 · শূন্য থার্ড-পার্টি লাইব্রেরি'
-                    : 'Android 8.0+ · Java 17 · Bilingual English & বাংলা'}
+                    ? 'Android 8.0+ · Java 17 · ডেভেলপার: Ebrahim Khalil'
+                    : 'Android 8.0+ · Java 17 · Maintained by Ebrahim Khalil'}
                 </p>
               </div>
 
-              <div className="inline-flex items-center p-1 rounded-xl bg-white border border-[#E7E5E4]">
+              <div className="inline-flex items-center p-1 rounded-xl bg-white border border-[#E5E7EB]">
                 <button
                   type="button"
                   onClick={() => setDesktopSection('simulator')}
                   className={`px-3.5 py-2 min-h-[38px] rounded-lg text-[13px] font-medium whitespace-nowrap transition-colors ${
                     desktopSection === 'simulator'
-                      ? 'bg-[#3A6A98] text-white'
-                      : 'text-[#78716C] hover:text-[#1C1917]'
+                      ? 'bg-[#15803D] text-white'
+                      : 'text-[#71717A] hover:text-[#18181B]'
                   }`}
                 >
                   {lang === 'bn' ? 'উইজেট সিমুলেটর' : 'Widget Simulator'}
@@ -504,8 +503,8 @@ export default function App() {
                   onClick={() => setDesktopSection('quizBank')}
                   className={`px-3.5 py-2 min-h-[38px] rounded-lg text-[13px] font-medium whitespace-nowrap transition-colors ${
                     desktopSection === 'quizBank'
-                      ? 'bg-[#3A6A98] text-white'
-                      : 'text-[#78716C] hover:text-[#1C1917]'
+                      ? 'bg-[#15803D] text-white'
+                      : 'text-[#71717A] hover:text-[#18181B]'
                   }`}
                 >
                   {lang === 'bn' ? 'কুইজ ব্যাংক' : 'Quiz Bank'}
@@ -516,17 +515,17 @@ export default function App() {
             {(desktopSection === 'simulator' || mobileTab === 'simulator') && (
               <div className="space-y-5">
                 {/* Mock Nusuk Screen with Floating Overlay */}
-                <div className="rounded-2xl bg-white border border-[#E7E5E4] p-5 space-y-5">
-                  <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#F0EEEC]">
+                <div className="rounded-2xl bg-white border border-[#E5E7EB] p-5 space-y-5">
+                  <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#F0F1F0]">
                     <div className="flex items-center gap-2.5">
-                      <Smartphone className="w-5 h-5 text-[#3A6A98]" />
+                      <Smartphone className="w-5 h-5 text-[#15803D]" />
                       <div>
-                        <div className="text-[15px] font-medium text-[#1C1917]">
+                        <div className="text-[15px] font-medium text-[#18181B]">
                           {lang === 'bn'
                             ? 'নুসুক অ্যাপ স্ক্রিন সিমুলেশন'
                             : 'Simulated Nusuk Challenge View'}
                         </div>
-                        <div className="text-[13px] text-[#78716C]">
+                        <div className="text-[13px] text-[#71717A]">
                           {overlay.mode === 'QUIZ'
                             ? lang === 'bn'
                               ? 'দরজা কুইজ মোড'
@@ -545,7 +544,7 @@ export default function App() {
                           onClick={() =>
                             setOverlay((p) => ({ ...p, visible: true, minimized: false }))
                           }
-                          className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] rounded-lg bg-[#3A6A98] hover:bg-[#325C84] text-white text-[13px] font-medium"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] rounded-lg bg-[#15803D] hover:bg-[#166534] text-white text-[13px] font-medium"
                         >
                           <Play className="w-3.5 h-3.5" />
                           <span>{lang === 'bn' ? 'উইজেট দেখান' : 'Show Widget'}</span>
@@ -564,7 +563,7 @@ export default function App() {
                             statusText: 'Ready',
                           }))
                         }
-                        className="inline-flex items-center gap-1.5 px-3 py-2 min-h-[38px] rounded-lg bg-[#F5F5F4] hover:bg-[#E7E5E4] text-[#1C1917] text-[13px] font-medium transition-colors"
+                        className="inline-flex items-center gap-1.5 px-3 py-2 min-h-[38px] rounded-lg bg-[#F4F4F5] hover:bg-[#E4E4E7] text-[#18181B] text-[13px] font-medium transition-colors"
                       >
                         <RotateCcw className="w-3.5 h-3.5" />
                         <span>{lang === 'bn' ? 'রিসেট' : 'Reset'}</span>
@@ -574,22 +573,22 @@ export default function App() {
 
                   <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6 items-start">
                     {/* Simulated Nusuk Screen Surface */}
-                    <div className="rounded-2xl bg-[#FAFAF9] border border-[#E7E5E4] p-5 space-y-4">
+                    <div className="rounded-2xl bg-[#FAFAFA] border border-[#E5E7EB] p-5 space-y-4">
                       {overlay.mode === 'QUIZ' ? (
                         <>
-                          <div className="flex items-center justify-between text-[13px] text-[#78716C]">
+                          <div className="flex items-center justify-between text-[13px] text-[#71717A]">
                             <span>Nusuk Umrah Challenge</span>
-                            <span className="tabular-nums font-medium text-[#3A6A98]">
+                            <span className="tabular-nums font-medium text-[#15803D]">
                               {lang === 'bn'
                                 ? `দরজা ${fmtNum(lang, overlay.activeDoor)}`
                                 : `Door ${overlay.activeDoor}`}
                             </span>
                           </div>
-                          <div className="p-4 rounded-xl bg-white border border-[#E7E5E4]">
-                            <div className="text-[12px] text-[#78716C] uppercase tracking-wider mb-1">
+                          <div className="p-4 rounded-xl bg-white border border-[#E5E7EB]">
+                            <div className="text-[12px] text-[#71717A] uppercase tracking-wider mb-1">
                               {lang === 'bn' ? 'চলমান প্রশ্ন' : 'Active Question'}
                             </div>
-                            <p className="text-[16px] font-medium text-[#1C1917] capitalize leading-snug">
+                            <p className="text-[16px] font-medium text-[#18181B] capitalize leading-snug">
                               {overlay.activeQuestion}?
                             </p>
                           </div>
@@ -606,12 +605,12 @@ export default function App() {
                                   className={`px-4 py-3 rounded-xl border text-[14px] flex items-center justify-between ${
                                     isCorrect && (overlay.running || overlay.completedCount > 0)
                                       ? 'bg-[#ECFDF5] border-[#6EE7B7] text-[#064E3B] font-medium'
-                                      : 'bg-white border-[#E7E5E4] text-[#44403C]'
+                                      : 'bg-white border-[#E5E7EB] text-[#44403C]'
                                   }`}
                                 >
                                   <span>{opt}</span>
                                   {isCorrect && (overlay.running || overlay.completedCount > 0) && (
-                                    <Check className="w-4 h-4 text-[#059669]" />
+                                    <Check className="w-4 h-4 text-[#15803D]" />
                                   )}
                                 </div>
                               );
@@ -620,22 +619,22 @@ export default function App() {
                         </>
                       ) : (
                         <>
-                          <div className="flex items-center justify-between text-[13px] text-[#78716C]">
+                          <div className="flex items-center justify-between text-[13px] text-[#71717A]">
                             <span>Nusuk — Your Keys</span>
-                            <span className="tabular-nums font-medium text-[#3A6A98]">
+                            <span className="tabular-nums font-medium text-[#15803D]">
                               {fmtNum(lang, overlay.completedCount)} / {fmtNum(lang, overlay.targetCount)}
                             </span>
                           </div>
-                          <div className="p-4 rounded-xl bg-white border border-[#E7E5E4] space-y-3">
-                            <div className="flex items-center gap-2 text-[13px] text-[#78716C]">
-                              <KeyRound className="w-4 h-4 text-[#3A6A98]" />
+                          <div className="p-4 rounded-xl bg-white border border-[#E5E7EB] space-y-3">
+                            <div className="flex items-center gap-2 text-[13px] text-[#71717A]">
+                              <KeyRound className="w-4 h-4 text-[#15803D]" />
                               <span>{lang === 'bn' ? 'কোড ইনপুট ফিল্ড' : 'Key Code Input Field'}</span>
                             </div>
-                            <div className="h-12 px-4 rounded-xl bg-[#F5F5F4] border border-[#D6D3D1] flex items-center justify-between">
-                              <span className="font-mono-code text-[16px] font-medium text-[#1C1917]">
+                            <div className="h-12 px-4 rounded-xl bg-[#F4F4F5] border border-[#D4D4D8] flex items-center justify-between">
+                              <span className="font-mono-code text-[16px] font-medium text-[#18181B]">
                                 {overlay.activeCode}
                               </span>
-                              <span className="text-[12px] font-medium text-[#3A6A98]">Check</span>
+                              <span className="text-[12px] font-medium text-[#15803D]">Check</span>
                             </div>
                           </div>
                           <div className="flex items-center gap-2 text-[13px] text-[#15803D]">
@@ -696,8 +695,8 @@ export default function App() {
                 </div>
 
                 {/* Quick Screen Shortcuts */}
-                <div className="rounded-2xl bg-white border border-[#E7E5E4] p-5">
-                  <div className="text-[15px] font-semibold text-[#1C1917] mb-3">
+                <div className="rounded-2xl bg-white border border-[#E5E7EB] p-5">
+                  <div className="text-[15px] font-semibold text-[#18181B] mb-3">
                     {lang === 'bn' ? 'সব স্ক্রিন সরাসরি দেখুন' : 'Jump Directly to App Screens'}
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -721,8 +720,8 @@ export default function App() {
                         }}
                         className={`px-3.5 py-2 min-h-[40px] rounded-xl text-[13px] font-medium border transition-colors whitespace-nowrap ${
                           screen === id
-                            ? 'bg-[#3A6A98] border-[#3A6A98] text-white'
-                            : 'bg-[#FAFAF9] border-[#E7E5E4] text-[#44403C] hover:border-[#3A6A98]/50'
+                            ? 'bg-[#15803D] border-[#15803D] text-white'
+                            : 'bg-[#FAFAFA] border-[#E5E7EB] text-[#44403C] hover:border-[#15803D]/50'
                         }`}
                       >
                         {t(lang, label)}
@@ -740,13 +739,13 @@ export default function App() {
         </div>
       </main>
 
-      {/* Mobile Bottom Navigation Bar (under 15% viewport height) */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 h-16 bg-white/95 backdrop-blur-md border-t border-[#E7E5E4] grid grid-cols-3">
+      {/* Mobile Bottom Navigation Bar */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 h-16 bg-white/95 backdrop-blur-md border-t border-[#E5E7EB] grid grid-cols-3">
         <button
           type="button"
           onClick={() => setMobileTab('app')}
           className={`flex flex-col items-center justify-center text-[12px] font-medium transition-colors ${
-            mobileTab === 'app' ? 'text-[#3A6A98]' : 'text-[#78716C]'
+            mobileTab === 'app' ? 'text-[#15803D]' : 'text-[#71717A]'
           }`}
         >
           <span>{lang === 'bn' ? 'অ্যাপ' : 'App'}</span>
@@ -758,7 +757,7 @@ export default function App() {
             setOverlay((p) => ({ ...p, visible: true }));
           }}
           className={`flex flex-col items-center justify-center text-[12px] font-medium transition-colors ${
-            mobileTab === 'simulator' ? 'text-[#3A6A98]' : 'text-[#78716C]'
+            mobileTab === 'simulator' ? 'text-[#15803D]' : 'text-[#71717A]'
           }`}
         >
           <span>{lang === 'bn' ? 'উইজেট' : 'Widget'}</span>
@@ -767,7 +766,7 @@ export default function App() {
           type="button"
           onClick={() => setMobileTab('quizBank')}
           className={`flex flex-col items-center justify-center text-[12px] font-medium transition-colors ${
-            mobileTab === 'quizBank' ? 'text-[#3A6A98]' : 'text-[#78716C]'
+            mobileTab === 'quizBank' ? 'text-[#15803D]' : 'text-[#71717A]'
           }`}
         >
           <span>{lang === 'bn' ? 'কুইজ ব্যাংক' : 'Quiz Bank'}</span>
@@ -778,7 +777,7 @@ export default function App() {
       {toast && (
         <div
           role="status"
-          className="fixed bottom-20 lg:bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl bg-[#1C1917] text-white text-[14px] shadow-lg max-w-[90vw] text-center"
+          className="fixed bottom-20 lg:bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl bg-[#18181B] text-white text-[14px] shadow-lg max-w-[90vw] text-center"
         >
           {toast}
         </div>

@@ -102,7 +102,7 @@ export function QuizBankPanel({ lang }: { lang: Lang }) {
               ? 'প্রশ্ন বা উত্তর খুঁজুন (যেমন: zamzam, hijra)...'
               : 'Search bundled quiz questions or answers...'
           }
-          className="w-full h-11 pl-10 pr-4 rounded-xl bg-[#FAFAF9] border border-[#E7E5E4] text-[14px] text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#3A6A98]"
+          className="w-full h-11 pl-10 pr-4 rounded-xl bg-[#FAFAFA] border border-[#E5E7EB] text-[14px] text-[#18181B] placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#15803D]"
         />
       </div>
 

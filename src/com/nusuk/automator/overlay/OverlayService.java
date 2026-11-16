@@ -349,7 +349,7 @@ public class OverlayService extends Service implements AutomationService.Automat
         if (btnAction == null) return;
         btnAction.setText(L.t(this, selectedMode == AutomationService.AutomationMode.QUIZ ? "▶  Start quiz" : "▶  Start codes"));
         btnAction.setBackgroundResource(R.drawable.ov_start_btn);
-        btnAction.setTextColor(0xFF1E3A5C);
+        btnAction.setTextColor(0xFF0F2E1E);
     }
 
     private void setActionRunning() {
@@ -367,11 +367,11 @@ public class OverlayService extends Service implements AutomationService.Automat
         boolean isCodes = (mode == AutomationService.AutomationMode.CODES);
         if (btnModeCodes != null) {
             btnModeCodes.setBackgroundResource(isCodes ? R.drawable.chip_selected : R.drawable.chip_unselected);
-            btnModeCodes.setTextColor(isCodes ? 0xFFFFFFFF : 0xFFAFC4DA);
+            btnModeCodes.setTextColor(isCodes ? 0xFFFFFFFF : 0xFFA7F3D0);
         }
         if (btnModeQuiz != null) {
             btnModeQuiz.setBackgroundResource(!isCodes ? R.drawable.chip_selected : R.drawable.chip_unselected);
-            btnModeQuiz.setTextColor(!isCodes ? 0xFFFFFFFF : 0xFFAFC4DA);
+            btnModeQuiz.setTextColor(!isCodes ? 0xFFFFFFFF : 0xFFA7F3D0);
         }
         if (rowPace != null) rowPace.setVisibility(isCodes || runningUi ? View.GONE : View.VISIBLE);
 

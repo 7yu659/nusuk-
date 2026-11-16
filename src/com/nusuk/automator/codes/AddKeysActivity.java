@@ -58,7 +58,7 @@ public class AddKeysActivity extends ScreenActivity {
         row.addView(paste);
         android.view.View sp = new android.view.View(this);
         row.addView(sp, new LinearLayout.LayoutParams(0, 1, 1));
-        submit = pill("Add codes", 0, true, 0xFF3E7CB1, this::onSubmit);
+        submit = pill("Add codes", 0, true, 0xFF15803D, this::onSubmit);
         row.addView(submit);
         c.addView(row, lp(-1, -2, 12));
 

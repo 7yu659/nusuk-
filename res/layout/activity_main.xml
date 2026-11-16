@@ -40,6 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:fontFamily="@font/plex_medium"
                     android:singleLine="true"
                     android:text="@string/app_name"
                     android:textColor="#FFFFFF"
@@ -440,11 +441,12 @@
                 android:paddingBottom="22dp">
 
                 <FrameLayout
-                    android:layout_width="46dp"
-                    android:layout_height="46dp">
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/circle_emerald_soft">
                     <ImageView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_auto_codes"
                         android:importantForAccessibility="no" />
@@ -461,8 +463,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/plex_medium"
                         android:text="Auto Add Codes"
-                        android:textSize="21sp" />
+                        android:textColor="@color/text_primary"
+                        android:textSize="19sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -470,7 +474,7 @@
                         android:layout_marginTop="3dp"
                         android:text="Enters Umrah codes for you"
                         android:textColor="@color/text_secondary"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <FrameLayout
@@ -502,11 +506,12 @@
                 android:paddingBottom="22dp">
 
                 <FrameLayout
-                    android:layout_width="46dp"
-                    android:layout_height="46dp">
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/circle_emerald_soft">
                     <ImageView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_auto_quiz"
                         android:importantForAccessibility="no" />
@@ -523,8 +528,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/plex_medium"
                         android:text="Auto Play Quiz"
-                        android:textSize="21sp" />
+                        android:textColor="@color/text_primary"
+                        android:textSize="19sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -532,7 +539,7 @@
                         android:layout_marginTop="3dp"
                         android:text="Answers the Nusuk quiz for you"
                         android:textColor="@color/text_secondary"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
                     <TextView
                         android:id="@+id/tvQuizReset"
                         android:layout_width="wrap_content"
@@ -789,7 +796,8 @@
                 android:background="@drawable/promo_fitan"
                 android:clickable="true"
                 android:clipToOutline="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="120dp"

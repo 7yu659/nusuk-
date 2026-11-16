@@ -17,7 +17,7 @@ import com.nusuk.automator.update.UpdateChecker;
 
 /** App settings: language (English / Bangla), the pace of the quiz automation, adding keys, updates. */
 public class SettingsActivity extends ScreenActivity {
-    private static final int BLUE = 0xFF3E7CB1, BLUE_SOFT = 0xFFEAF2F9, GREY_LINE = 0xFFD6D3D1;
+    private static final int BLUE = 0xFF15803D, BLUE_SOFT = 0xFFECFDF5, GREY_LINE = 0xFFE5E7EB;
 
     /** One tappable option: a radio mark, a title and an optional description. */
     private final class Choice {

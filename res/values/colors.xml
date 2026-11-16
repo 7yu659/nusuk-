@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- matches nusuk.minbars.net -->
-    <color name="primary">#3A6A98</color>
-    <color name="primary_dark">#37608D</color>
-    <color name="background">#F5F5F4</color>
-    <color name="text_primary">#1C1917</color>
-    <color name="text_secondary">#78716C</color>
-    <color name="hero_label">#BFFFFFFF</color>
+    <!-- Minimal Emerald Green Theme -->
+    <color name="primary">#15803D</color>
+    <color name="primary_dark">#14532D</color>
+    <color name="background">#F6F7F6</color>
+    <color name="text_primary">#18181B</color>
+    <color name="text_secondary">#71717A</color>
+    <color name="hero_label">#CCECFDF5</color>
     <color name="gold_light">#FFFFFF</color>
     <color name="warn_text">#92400E</color>
 </resources>

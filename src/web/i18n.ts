@@ -106,6 +106,8 @@ const EXACT: Record<string, string> = {
     'লেখাটায় কোনো কোড পাওয়া যায়নি। কোড দেখতে এরকম: NG-p36wAxup।',
 
   // Developer
+  'Ebrahim Khalil': 'ইব্রাহিম খলিল',
+  'Email': 'ইমেইল',
   'Developer of Nusuk Auto': 'Nusuk Auto-র ডেভেলপার',
   'Connect': 'যোগাযোগ',
   'Facebook profile': 'ফেসবুক প্রোফাইল',

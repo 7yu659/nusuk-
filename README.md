@@ -309,7 +309,7 @@ Questions and ideas are easier in the [Facebook group](https://www.facebook.com/
 ## Security
 
 If you find a security or privacy problem, please do not open a public issue. Contact the
-developer privately through <https://jafran.dev> first, so it can be fixed before it is public.
+developer privately at <mailto:skyebrahimkhalil@gmail.com> first, so it can be fixed before it is public.
 
 The release signing key and its password are never stored in this or any other repository.
 
@@ -331,36 +331,18 @@ The bundled IBM Plex fonts are under the SIL Open Font License (`assets/OFL-IBM-
 | Video tutorial | <https://nusuk.minbars.net/tutorial> |
 | Help and fixes | <https://nusuk.minbars.net/help> |
 | Community (Facebook group) | <https://www.facebook.com/groups/nusukauto/> |
-| Source code | <https://github.com/jafranonline/nusuk-auto> |
+| Source code | <https://github.com/ebrahimkhalil/nusuk-auto> |
 
 The APK on the website is the only official build. Nusuk Auto is not on Google Play.
 
 ## Credits
 
-<table>
-  <tr>
-    <td width="96"><img src="res/drawable-nodpi/dev_avatar.jpg" width="80" height="80" alt="Jafran Hasan"></td>
-    <td>
-      <b>Jafran Hasan</b><br>
-      Design, development and maintenance.<br>
-      <a href="https://jafran.dev">jafran.dev</a> &nbsp;·&nbsp;
-      <a href="https://github.com/jafranonline">GitHub</a> &nbsp;·&nbsp;
-      <a href="https://www.facebook.com/jafranonline/">Facebook</a>
-    </td>
-  </tr>
-</table>
-
-**Thanks to**
-
+- **Ebrahim Khalil** — Design, development and maintenance (`skyebrahimkhalil@gmail.com`)
 - **The Nusuk Auto community.** Members of the [Facebook group](https://www.facebook.com/groups/nusukauto/)
   share key codes, test every release on their own phones and report what breaks.
 - **IBM Plex** by IBM, the typeface used across the app, under the
   [SIL Open Font License 1.1](assets/OFL-IBM-Plex.txt).
 - **Android Open Source Project.** The app is built with the Android SDK and its build tools only.
-- **Cloudflare Workers, D1 and R2**, which host the server, its database and the app downloads.
-
-**Also by the developer:** [Al Fitan](https://alfitan.com/), a digital archive on the trials and
-signs of the Hour.
 
 **Trademarks.** "Nusuk" and the Nusuk logo belong to their owner. They are used here only to say
 which app this helper works with. Nusuk Auto is not affiliated with, endorsed by or sponsored by
@@ -370,6 +352,6 @@ Nusuk or the Saudi Ministry of Hajj and Umrah.
 
 <div align="center">
 
-Made by [Jafran Hasan](https://jafran.dev) &nbsp;·&nbsp; [nusuk.minbars.net](https://nusuk.minbars.net)
+Maintained by Ebrahim Khalil &nbsp;·&nbsp; skyebrahimkhalil@gmail.com
 
 </div>

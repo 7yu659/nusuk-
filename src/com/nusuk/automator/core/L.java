@@ -170,7 +170,8 @@ public final class L {
                 "আল ফিতান: ফিতনা ও কিয়ামতের আলামত নিয়ে সবচেয়ে বড় ডিজিটাল আর্কাইভ।");
         x("Visit alfitan.com", "alfitan.com ভিজিট করো");
         x("DEVELOPED BY", "ডেভেলপার");
-        x("Jafran Hasan", "জাফরান হাসান");
+        x("Ebrahim Khalil", "ইব্রাহিম খলিল");
+        x("Email", "ইমেইল");
         x("Settings", "সেটিংস");
         x("Back", "পেছনে");
         x("Downloading codes...", "কোড ডাউনলোড হচ্ছে...");

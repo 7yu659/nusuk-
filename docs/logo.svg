@@ -1,1 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><defs><linearGradient id="s" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="#dcebf7"/><stop offset="1" stop-color="#9dc1df"/></linearGradient></defs><path d="M24 1l6.74 6.74h9.52v9.52L47 24l-6.74 6.74v9.52h-9.52L24 47l-6.74-6.74H7.74v-9.52L1 24l6.74-6.74V7.74h9.52z" fill="url(#s)"/><path d="M24 4.5l5.71 5.71h8.08v8.08L43.5 24l-5.71 5.71v8.08h-8.08L24 43.5l-5.71-5.71h-8.08v-8.08L4.5 24l5.71-5.71v-8.08h8.08z" fill="#2f5c89"/><g transform="translate(14.4 14.4) scale(.8)" fill="none" stroke="url(#s)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4.5"/><path d="M11.2 11.8 20 3M16.5 6.5l2.5 2.5M14 9l2 2"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <defs>
+    <linearGradient id="nusukMinimalGreen" x1="3" y1="3" x2="45" y2="45" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#16A34A" />
+      <stop offset="1" stop-color="#14532D" />
+    </linearGradient>
+  </defs>
+  <rect x="3.5" y="3.5" width="41" height="41" rx="11.5" fill="url(#nusukMinimalGreen)" stroke="#BBF7D0" stroke-width="1.6" />
+  <path d="M15.5 33.5V21.5a8.5 8.5 0 0 1 17 0v12" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="24" cy="19.25" r="3.25" fill="none" stroke="#DCFCE7" stroke-width="2.4" />
+  <path d="M24 22.5V33M24 29.5h3.5" fill="none" stroke="#DCFCE7" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

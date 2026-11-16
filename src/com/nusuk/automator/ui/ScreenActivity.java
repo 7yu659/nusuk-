@@ -107,7 +107,7 @@ public abstract class ScreenActivity extends Activity {
             t.setTextColor(0xFFFFFFFF);
         } else {
             t.setBackgroundResource(R.drawable.btn_soft);
-            t.setTextColor(0xFF2C5379);
+            t.setTextColor(0xFF166534);
         }
         if (iconRes != 0) {
             t.setCompoundDrawablesRelativeWithIntrinsicBounds(iconRes, 0, 0, 0);

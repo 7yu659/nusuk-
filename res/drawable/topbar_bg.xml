@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item><shape android:shape="rectangle">
-        <gradient android:angle="315" android:startColor="#37608D" android:centerColor="#3D74A0" android:endColor="#3E8CB2" />
-    </shape></item>
-    <item android:drawable="@drawable/noise_overlay" />
-</layer-list>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient android:angle="315" android:startColor="#14532D" android:centerColor="#15803D" android:endColor="#16A34A" />
+</shape>

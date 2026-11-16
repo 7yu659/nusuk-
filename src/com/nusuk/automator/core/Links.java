@@ -10,10 +10,11 @@ import android.widget.Toast;
 /** Outside links shared by every screen (Facebook group, developer profile, alfitan.com). */
 public final class Links {
     static final String GROUP_URL = "https://www.facebook.com/groups/nusukauto/";
-    public static final String DEV_URL = "https://www.facebook.com/jafranonline/";
-    public static final String GITHUB_URL = "https://github.com/jafranonline";
-    public static final String WEB_URL = "https://jafran.dev";
-    public static final String DEV_NAME = "Jafran Hasan";
+    public static final String DEV_EMAIL = "skyebrahimkhalil@gmail.com";
+    public static final String DEV_URL = "mailto:skyebrahimkhalil@gmail.com";
+    public static final String GITHUB_URL = "https://github.com/ebrahimkhalil";
+    public static final String WEB_URL = "https://nusuk.minbars.net/";
+    public static final String DEV_NAME = "Ebrahim Khalil";
     /** The link users share to spread the app: our website (download + tutorials). */
     static final String SHARE_URL = "https://nusuk.minbars.net/";
     public static final String FITAN_URL = "https://alfitan.com/";
