@@ -458,5 +458,30 @@ public final class L {
         r("✓  (\\d+) new codes? added\\. Thank you!", "✓  $1টা নতুন কোড অ্যাড হয়েছে। ধন্যবাদ!");
         r("✗  (\\d+) not a valid code \\(NG- and 8 letters or digits\\)", "✗  $1টা সঠিক কোড নয় (NG- আর ৮টা অক্ষর বা সংখ্যা)");
         r("The server could not add the codes right now \\(error (\\d+)\\)\\. Please try again later\\.", "সার্ভার এখন কোড অ্যাড করতে পারছে না (এরর $1)। একটু পরে আবার চেষ্টা করো।");
+
+        // ----- Fynex corporate developer, ad popup & GitHub forced update -----
+        x("Fynex · Sponsored", "Fynex · স্পন্সরড");
+        x("FYNEX · SOFTWARE & AUTOMATION", "FYNEX · সফটওয়্যার ও অটোমেশন");
+        x("Founder & Lead Developer · Fynex", "প্রতিষ্ঠাতা ও প্রধান ডেভেলপার · Fynex");
+        x("Built by Fynex", "Fynex দ্বারা নির্মিত");
+        x("WhatsApp", "হোয়াটসঅ্যাপ");
+        x("Facebook", "ফেসবুক");
+        x("Official website", "অফিসিয়াল ওয়েবসাইট");
+        x("GitHub Release", "গিটহাব রিলিজ");
+        x("Update now", "এখনই আপডেট করো");
+        x("A new update was published on GitHub. You must install the latest version before continuing.",
+                "গিটহাবে নতুন আপডেট প্রকাশিত হয়েছে। সামনে এগিয়ে যেতে হলে অবশ্যই সর্বশেষ ভার্সনটি আপডেট করতে হবে।");
+        x("Download the APK and install the update to continue.",
+                "চালিয়ে যেতে নতুন APK ডাউনলোড করে ইনস্টল করো।");
+        x("Update failed. Try again or download it from GitHub.",
+                "আপডেট হয়নি। আবার চেষ্টা করো, অথবা গিটহাব থেকে ডাউনলোড করো।");
+        x("Nusuk Auto is developed and maintained by Ebrahim Khalil at Fynex (fynex.site) to help Umrah pilgrims automate Nusuk codes and challenges safely.",
+                "Nusuk Auto-টি Fynex (fynex.site)-এর অধীনে ইব্রাহিম খলিল তৈরি ও পরিচালনা করেন, যাতে ওমরাহ যাত্রীরা সহজে নুসুক কোড ও কুইজ অটোমেট করতে পারেন।");
+        x("This helper is independent and not affiliated with the Nusuk app or the Ministry of Hajj and Umrah.",
+                "এই অ্যাপটি সম্পূর্ণ স্বাধীন এবং নুসুক অ্যাপ বা হজ ও ওমরাহ মন্ত্রণালয়ের সঙ্গে এর কোনো সম্পর্ক নেই।");
+        r("Update required \\((.+)\\)", "আপডেট আবশ্যক ($1)");
+        x("1", "১");
+        x("2", "২");
+        x("3", "৩");
     }
 }

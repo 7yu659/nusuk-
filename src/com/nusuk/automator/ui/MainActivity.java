@@ -98,13 +98,17 @@ public class MainActivity extends Activity implements KeyRepository.ChangeListen
         findViewById(R.id.btnAddKeys).setOnClickListener(v -> startActivity(new Intent(this, AddKeysActivity.class)));
         findViewById(R.id.btnShare).setOnClickListener(v -> Links.share(this));
         setupDevCredit();
-        findViewById(R.id.cardFitan).setOnClickListener(v -> openUrl(Links.FITAN_URL));
+        findViewById(R.id.cardFitan).setOnClickListener(v -> openUrl(Links.WEB_URL));
 
         KeyRepository.getInstance(this).registerListener(this);
 
         Notices.ensureChannel(this);
         Notices.schedule(this);
         askNotificationPermission();
+
+        if (!UpdateChecker.isBlocked(this)) {
+            AdPopup.showIfNeeded(this);
+        }
     }
 
     /** Android 13+: announcements need the notification permission. Asked once; Android remembers a "no". */
@@ -220,6 +224,10 @@ public class MainActivity extends Activity implements KeyRepository.ChangeListen
     }
 
     private void onPlayQuiz() {
+        if (UpdateChecker.isBlocked(this)) {
+            UpdateChecker.autoCheck(this, this::renderVersionBadge);
+            return;
+        }
         if (quizStatus == null) {
             refreshQuizStatus(this::decidePlayQuiz);
         } else {
@@ -286,10 +294,15 @@ public class MainActivity extends Activity implements KeyRepository.ChangeListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (isFinishing()) AdPopup.resetOnExit();
         KeyRepository.getInstance(this).unregisterListener(this);
     }
 
     private void launch(String mode) {
+        if (UpdateChecker.isBlocked(this)) {
+            UpdateChecker.autoCheck(this, this::renderVersionBadge);
+            return;
+        }
         if ("CODES".equals(mode) && !KeyRepository.getInstance(this).isLoaded()) {
             Toast.makeText(this, L.t(this, "Loading codes\u2026"), Toast.LENGTH_SHORT).show();
             return;

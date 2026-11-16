@@ -15,6 +15,8 @@
         <package android:name="com.moh.nusukapp" />
         <package android:name="com.facebook.katana" />
         <package android:name="com.facebook.lite" />
+        <package android:name="com.whatsapp" />
+        <package android:name="com.whatsapp.w4b" />
     </queries>
 
     <application
@@ -76,6 +78,12 @@
             android:name=".notices.NoticeJob"
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:exported="false" />
+
+        <provider
+            android:name=".core.ApkShareProvider"
+            android:authorities="com.nusuk.automator.share"
+            android:exported="false"
+            android:grantUriPermissions="true" />
 
     </application>
 </manifest>

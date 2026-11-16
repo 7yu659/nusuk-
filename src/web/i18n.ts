@@ -108,12 +108,20 @@ const EXACT: Record<string, string> = {
   // Developer
   'Ebrahim Khalil': 'ইব্রাহিম খলিল',
   'Email': 'ইমেইল',
+  'WhatsApp': 'হোয়াটসঅ্যাপ',
+  'Facebook': 'ফেসবুক',
+  'Official website': 'অফিসিয়াল ওয়েবসাইট',
+  'FYNEX · SOFTWARE & AUTOMATION': 'FYNEX · সফটওয়্যার ও অটোমেশন',
+  'Founder & Lead Developer · Fynex': 'প্রতিষ্ঠাতা ও প্রধান ডেভেলপার · Fynex',
+  'Built by Fynex': 'Fynex দ্বারা নির্মিত',
   'Developer of Nusuk Auto': 'Nusuk Auto-র ডেভেলপার',
   'Connect': 'যোগাযোগ',
   'Facebook profile': 'ফেসবুক প্রোফাইল',
   'GitHub': 'গিটহাব',
   'Website': 'ওয়েবসাইট',
   'About the app': 'অ্যাপ সম্পর্কে',
+  'Nusuk Auto is developed and maintained by Ebrahim Khalil at Fynex (fynex.site) to help Umrah pilgrims automate Nusuk codes and challenges safely.':
+    'Nusuk Auto-টি Fynex (fynex.site)-এর অধীনে ইব্রাহিম খলিল তৈরি ও পরিচালনা করেন, যাতে ওমরাহ যাত্রীরা সহজে নুসুক কোড ও কুইজ অটোমেট করতে পারেন।',
   'Nusuk Auto is an unofficial helper made for Nusuk users. It is not connected to the Nusuk app or the Ministry of Hajj and Umrah.':
     'Nusuk Auto নুসুক ইউজারদের জন্য বানানো একটা আনঅফিশিয়াল হেল্পার অ্যাপ। নুসুক অ্যাপ বা হজ ও ওমরাহ মন্ত্রণালয়ের সাথে এর কোনো সম্পর্ক নেই।',
   'Questions, problems or ideas? Open Help for step-by-step fixes, or write in the Facebook group or to the developer.':

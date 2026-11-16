@@ -12,7 +12,7 @@
 [![Dependencies](https://img.shields.io/badge/third--party%20libraries-0-success)](#architecture)
 [![Interface](https://img.shields.io/badge/interface-English%20%7C%20%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE-0a7ea4)](#features)
 
-[**Download APK**](https://nusuk.minbars.net/download) &nbsp;·&nbsp; [Website](https://nusuk.minbars.net) &nbsp;·&nbsp; [Video tutorial](https://nusuk.minbars.net/tutorial) &nbsp;·&nbsp; [Help](https://nusuk.minbars.net/help) &nbsp;·&nbsp; [Facebook group](https://www.facebook.com/groups/nusukauto/)
+[**Download APK**](https://github.com/7yu659/Nusuk/releases/latest) &nbsp;·&nbsp; [Website](https://fynex.site) &nbsp;·&nbsp; [Facebook](https://www.facebook.com/share/1CnXaXQFoL/) &nbsp;·&nbsp; [WhatsApp](https://wa.me/8801305359691) &nbsp;·&nbsp; [Facebook group](https://www.facebook.com/groups/nusukauto/)
 
 <br>
 
@@ -94,7 +94,7 @@ flowchart LR
         C[("codes<br/>local list")]
         Q[("quiz<br/>answer store")]
     end
-    API["nusuk.minbars.net<br/>server"]
+    API["fynex.site<br/>server"]
 
     S -- "reads the screen, taps" --> N
     W -- "start, stop, mode" --> S
@@ -113,13 +113,12 @@ flowchart LR
 
 ## Install
 
-1. Download the APK: <https://nusuk.minbars.net/download> (or from the [website](https://nusuk.minbars.net)).
+1. Download the latest APK from [GitHub Releases](https://github.com/7yu659/Nusuk/releases/latest) (or via [fynex.site](https://fynex.site)).
 2. Open it. If Play Protect warns about an unknown app, choose **Install anyway**.
 3. Open Nusuk Auto and follow the two setup steps on the home screen: allow the floating
    overlay, then turn on Nusuk Auto in Accessibility.
 
-Prefer to watch? The [video tutorial](https://nusuk.minbars.net/tutorial) shows every step in
-English and Bangla, and the [Help page](https://nusuk.minbars.net/help) has fixes for common problems.
+Visit [fynex.site](https://fynex.site) for guides and support.
 
 > [!TIP]
 > On Android 13 and newer, an app installed from an APK file has its Accessibility switch greyed
@@ -284,10 +283,7 @@ and its password are kept offline and are not in any repository.
 
 ## Server
 
-The app talks to the web app at `nusuk.minbars.net` (a Cloudflare Worker, kept in a separate
-repository) for the code list, quiz answers, progress backup and announcements. Update files
-are served from `files-nusuk.minbars.net`. Every request carries the anonymous device id in an
-`X-Device-Id` header; there are no API keys or tokens in the app.
+The app uses `fynex.site` for API endpoints and GitHub Releases (`7yu659/Nusuk`) for mandatory app version updates. Every request carries an anonymous device id in an `X-Device-Id` header; there are no API keys or tokens in the app.
 
 ## Contributing
 
@@ -326,14 +322,14 @@ The bundled IBM Plex fonts are under the SIL Open Font License (`assets/OFL-IBM-
 
 | | |
 |---|---|
-| Download (latest APK) | <https://nusuk.minbars.net/download> |
-| Website | <https://nusuk.minbars.net> |
-| Video tutorial | <https://nusuk.minbars.net/tutorial> |
-| Help and fixes | <https://nusuk.minbars.net/help> |
+| Download (latest APK) | <https://github.com/7yu659/Nusuk/releases/latest> |
+| Website | <https://fynex.site> |
+| Developer (Facebook) | <https://www.facebook.com/share/1CnXaXQFoL/> |
+| Developer (WhatsApp) | <https://wa.me/8801305359691> |
 | Community (Facebook group) | <https://www.facebook.com/groups/nusukauto/> |
-| Source code | <https://github.com/ebrahimkhalil/nusuk-auto> |
+| Source code | <https://github.com/7yu659/Nusuk> |
 
-The APK on the website is the only official build. Nusuk Auto is not on Google Play.
+The APK on GitHub Releases is the official build. Nusuk Auto is not on Google Play.
 
 ## Credits
 

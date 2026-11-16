@@ -6,8 +6,10 @@ import {
   Bell,
   ChevronRight,
   ExternalLink,
+  Globe,
   HelpCircle,
   Mail,
+  MessageCircle,
   Plus,
   Settings,
   Share2,
@@ -101,14 +103,14 @@ export function PhoneApp({
   };
 
   const handleShareApp = () => {
-    const shareUrl = 'https://nusuk.minbars.net/';
+    const shareUrl = 'https://www.facebook.com/share/1CnXaXQFoL/';
     if (typeof navigator !== 'undefined' && navigator.clipboard) {
       navigator.clipboard.writeText(shareUrl).catch(() => {});
     }
     onToast(
       lang === 'bn'
-        ? `শেয়ার লিংক কপি হয়েছে: ${shareUrl}`
-        : `Share link copied: ${shareUrl}`,
+        ? `অ্যান্ড্রয়েডে সরাসরি APK বা এই লিংক শেয়ার হবে: ${shareUrl}`
+        : `Android shares the APK directly, or this link: ${shareUrl}`,
     );
   };
 
@@ -653,15 +655,55 @@ export function PhoneApp({
 
           {screen === 'developer' && (
             <>
-              <div className="rounded-2xl bg-white border border-[#E5E7EB] p-6 flex flex-col items-center text-center">
-                <div className="w-[88px] h-[88px] rounded-full hero-gradient text-white flex items-center justify-center text-[30px] font-medium border-[3px] border-white shadow-sm">
-                  EK
+              {/* Corporate Brand & Founder Header */}
+              <div className="rounded-2xl bg-white border border-[#E5E7EB] overflow-hidden">
+                <div className="hero-gradient pt-4 pb-12 px-4 flex justify-center">
+                  <span className="px-3 py-1 rounded-full bg-white/20 text-[#DCFCE7] text-[11px] font-medium tracking-[0.08em] uppercase">
+                    {t(lang, 'FYNEX · SOFTWARE & AUTOMATION')}
+                  </span>
                 </div>
-                <div className="mt-3.5 text-[22px] font-medium text-[#18181B]">
-                  {t(lang, 'Ebrahim Khalil')}
-                </div>
-                <div className="mt-0.5 text-[15px] text-[#71717A]">
-                  {t(lang, 'Developer of Nusuk Auto')}
+                <div className="px-5 pb-5 flex flex-col items-center text-center">
+                  <div className="-mt-12 w-24 h-24 rounded-full bg-white p-1 border-2 border-[#BBF7D0] shadow-sm">
+                    <img
+                      src="/assets/dev_avatar.jpg"
+                      alt="Ebrahim Khalil"
+                      className="w-full h-full rounded-full object-cover"
+                    />
+                  </div>
+                  <div className="mt-3 text-[21px] font-medium text-[#18181B]">
+                    {t(lang, 'Ebrahim Khalil')}
+                  </div>
+                  <div className="mt-0.5 text-[14px] font-medium text-[#15803D]">
+                    {t(lang, 'Founder & Lead Developer · Fynex')}
+                  </div>
+
+                  {/* Quick Contact Pills */}
+                  <div className="mt-4 w-full grid grid-cols-3 gap-2">
+                    <a
+                      href="https://wa.me/8801305359691"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="min-h-[40px] rounded-full bg-[#15803D] hover:bg-[#166534] text-white text-[13px] font-medium flex items-center justify-center transition-colors"
+                    >
+                      {t(lang, 'WhatsApp')}
+                    </a>
+                    <a
+                      href="https://www.facebook.com/share/1CnXaXQFoL/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="min-h-[40px] rounded-full bg-[#ECFDF5] border border-[#BBF7D0] hover:bg-[#DCFCE7] text-[#166534] text-[13px] font-medium flex items-center justify-center transition-colors"
+                    >
+                      {t(lang, 'Facebook')}
+                    </a>
+                    <a
+                      href="https://fynex.site"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="min-h-[40px] rounded-full bg-[#ECFDF5] border border-[#BBF7D0] hover:bg-[#DCFCE7] text-[#166534] text-[13px] font-medium flex items-center justify-center transition-colors"
+                    >
+                      {t(lang, 'Website')}
+                    </a>
+                  </div>
                 </div>
               </div>
 
@@ -671,29 +713,90 @@ export function PhoneApp({
                 </div>
                 <div className="rounded-2xl bg-white border border-[#E5E7EB] divide-y divide-[#F0F1F0]">
                   <a
-                    href="mailto:skyebrahimkhalil@gmail.com"
+                    href="https://wa.me/8801305359691"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center gap-3.5 px-4 min-h-[64px] hover:bg-[#FAFAFA] transition-colors rounded-t-2xl"
                   >
-                    <Mail className="w-5 h-5 text-[#15803D] shrink-0" />
+                    <div className="w-10 h-10 rounded-full bg-[#ECFDF5] flex items-center justify-center shrink-0">
+                      <MessageCircle className="w-5 h-5 text-[#15803D]" />
+                    </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-[16px] text-[#18181B]">{t(lang, 'Email')}</div>
-                      <div className="text-[14px] text-[#71717A] truncate">
+                      <div className="text-[16px] font-medium text-[#18181B]">
+                        {t(lang, 'WhatsApp')}
+                      </div>
+                      <div className="text-[13.5px] text-[#71717A] truncate">01305359691</div>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-[#A1A1AA] shrink-0" />
+                  </a>
+                  <a
+                    href="https://www.facebook.com/share/1CnXaXQFoL/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3.5 px-4 min-h-[64px] hover:bg-[#FAFAFA] transition-colors"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-[#ECFDF5] flex items-center justify-center shrink-0">
+                      <ExternalLink className="w-5 h-5 text-[#15803D]" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[16px] font-medium text-[#18181B]">
+                        {t(lang, 'Facebook profile')}
+                      </div>
+                      <div className="text-[13.5px] text-[#71717A] truncate">
+                        facebook.com/share/1CnXaXQFoL
+                      </div>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-[#A1A1AA] shrink-0" />
+                  </a>
+                  <a
+                    href="https://fynex.site"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3.5 px-4 min-h-[64px] hover:bg-[#FAFAFA] transition-colors"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-[#ECFDF5] flex items-center justify-center shrink-0">
+                      <Globe className="w-5 h-5 text-[#15803D]" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[16px] font-medium text-[#18181B]">
+                        {t(lang, 'Official website')}
+                      </div>
+                      <div className="text-[13.5px] text-[#71717A] truncate">fynex.site</div>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-[#A1A1AA] shrink-0" />
+                  </a>
+                  <a
+                    href="mailto:skyebrahimkhalil@gmail.com"
+                    className="flex items-center gap-3.5 px-4 min-h-[64px] hover:bg-[#FAFAFA] transition-colors"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-[#ECFDF5] flex items-center justify-center shrink-0">
+                      <Mail className="w-5 h-5 text-[#15803D]" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[16px] font-medium text-[#18181B]">
+                        {t(lang, 'Email')}
+                      </div>
+                      <div className="text-[13.5px] text-[#71717A] truncate">
                         skyebrahimkhalil@gmail.com
                       </div>
                     </div>
                     <ChevronRight className="w-4 h-4 text-[#A1A1AA] shrink-0" />
                   </a>
                   <a
-                    href="https://github.com/ebrahimkhalil"
+                    href="https://github.com/7yu659"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3.5 px-4 min-h-[64px] hover:bg-[#FAFAFA] transition-colors"
                   >
-                    <ExternalLink className="w-5 h-5 text-[#15803D] shrink-0" />
+                    <div className="w-10 h-10 rounded-full bg-[#ECFDF5] flex items-center justify-center shrink-0">
+                      <ExternalLink className="w-5 h-5 text-[#15803D]" />
+                    </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-[16px] text-[#18181B]">{t(lang, 'GitHub')}</div>
-                      <div className="text-[14px] text-[#71717A] truncate">
-                        github.com/ebrahimkhalil
+                      <div className="text-[16px] font-medium text-[#18181B]">
+                        {t(lang, 'GitHub')}
+                      </div>
+                      <div className="text-[13.5px] text-[#71717A] truncate">
+                        github.com/7yu659
                       </div>
                     </div>
                     <ChevronRight className="w-4 h-4 text-[#A1A1AA] shrink-0" />
@@ -704,12 +807,14 @@ export function PhoneApp({
                     rel="noopener noreferrer"
                     className="flex items-center gap-3.5 px-4 min-h-[64px] hover:bg-[#FAFAFA] transition-colors rounded-b-2xl"
                   >
-                    <Users className="w-5 h-5 text-[#15803D] shrink-0" />
+                    <div className="w-10 h-10 rounded-full bg-[#ECFDF5] flex items-center justify-center shrink-0">
+                      <Users className="w-5 h-5 text-[#15803D]" />
+                    </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-[16px] text-[#18181B]">
+                      <div className="text-[16px] font-medium text-[#18181B]">
                         {t(lang, 'Facebook group')}
                       </div>
-                      <div className="text-[14px] text-[#71717A] truncate">
+                      <div className="text-[13.5px] text-[#71717A] truncate">
                         facebook.com/groups/nusukauto
                       </div>
                     </div>
@@ -722,20 +827,23 @@ export function PhoneApp({
                 <div className="px-1 mb-2 text-[12px] tracking-[0.12em] uppercase text-[#71717A]">
                   {t(lang, 'About the app')}
                 </div>
-                <div className="rounded-2xl bg-white border border-[#E5E7EB] p-4 space-y-2.5 text-[15px] text-[#44403C] leading-relaxed">
+                <div className="rounded-2xl bg-white border border-[#E5E7EB] p-4 space-y-2 text-[14.5px] text-[#44403C] leading-relaxed">
+                  <div className="text-[16px] font-medium text-[#18181B]">
+                    {t(lang, 'Built by Fynex')}
+                  </div>
                   <p>
+                    {t(
+                      lang,
+                      'Nusuk Auto is developed and maintained by Ebrahim Khalil at Fynex (fynex.site) to help Umrah pilgrims automate Nusuk codes and challenges safely.',
+                    )}
+                  </p>
+                  <p className="text-[#71717A]">
                     {t(
                       lang,
                       'Nusuk Auto is an unofficial helper made for Nusuk users. It is not connected to the Nusuk app or the Ministry of Hajj and Umrah.',
                     )}
                   </p>
-                  <p>
-                    {t(
-                      lang,
-                      'Questions, problems or ideas? Open Help for step-by-step fixes, or write in the Facebook group or to the developer.',
-                    )}
-                  </p>
-                  <div className="pt-1 text-[14px] text-[#71717A] tabular-nums">
+                  <div className="pt-1 text-[14px] font-medium text-[#15803D] tabular-nums">
                     {t(lang, 'Version 2.7')}
                   </div>
                 </div>
@@ -770,12 +878,12 @@ export function PhoneApp({
                 </p>
               </div>
               <a
-                href="https://nusuk.minbars.net/help"
+                href="https://fynex.site"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full min-h-[44px] rounded-xl bg-[#15803D] hover:bg-[#166534] text-white text-[15px] font-medium transition-colors"
               >
-                <span>{lang === 'bn' ? 'অনলাইন হেল্প পেজ দেখো' : 'Open nusuk.minbars.net/help'}</span>
+                <span>{lang === 'bn' ? 'অফিসিয়াল ওয়েবসাইট দেখো (fynex.site)' : 'Open fynex.site'}</span>
                 <ExternalLink className="w-4 h-4" />
               </a>
             </div>

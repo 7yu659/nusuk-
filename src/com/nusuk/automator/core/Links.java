@@ -7,32 +7,38 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.Toast;
 
-/** Outside links shared by every screen (Facebook group, developer profile, alfitan.com). */
+/** Outside links and sharing helpers shared across every screen. */
 public final class Links {
     static final String GROUP_URL = "https://www.facebook.com/groups/nusukauto/";
+    public static final String FB_PROFILE_URL = "https://www.facebook.com/share/1CnXaXQFoL/";
+    public static final String WHATSAPP_NUMBER = "01305359691";
+    public static final String WHATSAPP_URL = "https://wa.me/8801305359691";
     public static final String DEV_EMAIL = "skyebrahimkhalil@gmail.com";
     public static final String DEV_URL = "mailto:skyebrahimkhalil@gmail.com";
-    public static final String GITHUB_URL = "https://github.com/ebrahimkhalil";
-    public static final String WEB_URL = "https://nusuk.minbars.net/";
+    public static final String GITHUB_REPO = "7yu659/Nusuk";
+    public static final String GITHUB_URL = "https://github.com/7yu659";
+    public static final String GITHUB_RELEASES_URL = "https://github.com/" + GITHUB_REPO + "/releases";
+    public static final String WEB_URL = "https://fynex.site/";
     public static final String DEV_NAME = "Ebrahim Khalil";
-    /** The link users share to spread the app: our website (download + tutorials). */
-    static final String SHARE_URL = "https://nusuk.minbars.net/";
-    public static final String FITAN_URL = "https://alfitan.com/";
+    public static final String COMPANY_NAME = "Fynex";
+    /** Fallback link shared when APK file sharing isn't supported by the target app. */
+    public static final String SHARE_URL = FB_PROFILE_URL;
 
     private Links() {}
 
     /** Nusuk's own app (the one we automate). */
     public static final String NUSUK_PACKAGE = "com.moh.nusukapp";
-    /** Our site and file hosts (the server API base is the api_base string resource). */
-    public static final String SITE_HOST = "nusuk.minbars.net";
+    /** Official website and release hosts. */
+    public static final String SITE_HOST = "fynex.site";
     public static final String SITE_URL = "https://" + SITE_HOST;
-    public static final String FILE_HOST = "https://files-nusuk.minbars.net/";
+    public static final String FILE_HOST = "https://fynex.site/";
 
-    /** Sites a link sent by the server (announcements, group link, update page) may open. A link to
-     *  anywhere else is ignored, so a hijacked server cannot push users to a phishing page. */
+    /** Hosts trusted for in-app notice or update links. */
     private static final String[] TRUSTED_HOSTS = {
-            "minbars.net", "facebook.com", "fb.com", "fb.me", "github.com", "jafran.dev", "alfitan.com",
-            "play.google.com", "youtube.com", "youtu.be", "wa.me", "whatsapp.com", "t.me"};
+            "fynex.site", "facebook.com", "fb.com", "fb.me",
+            "github.com", "githubusercontent.com", "objects.githubusercontent.com",
+            "play.google.com", "youtube.com", "youtu.be", "wa.me", "whatsapp.com", "t.me"
+    };
 
     public static boolean isTrusted(String url) {
         if (url == null || !url.startsWith("https://")) return false;
@@ -56,7 +62,7 @@ public final class Links {
         return prefs(c).getString("group", GROUP_URL);
     }
 
-    /** Opens a Facebook page in the Facebook app (or Lite), falling back to the browser. */
+    /** Opens a Facebook page or profile in Facebook app / Lite, falling back to browser. */
     public static void openFacebook(Context c, String url) {
         for (String pkg : new String[]{"com.facebook.katana", "com.facebook.lite"}) {
             try {
@@ -70,15 +76,41 @@ public final class Links {
         open(c, url);
     }
 
-    /** Opens the share sheet with a short message and the website link. */
+    /** Opens WhatsApp chat with the developer. */
+    public static void openWhatsApp(Context c) {
+        open(c, WHATSAPP_URL);
+    }
+
+    /**
+     * Shares the installed APK file directly so the recipient can install it via WhatsApp,
+     * Telegram, Nearby Share, or Bluetooth; if APK sharing is unavailable, shares the
+     * developer's Facebook link instead.
+     */
     public static void share(Context c) {
         String msg = L.isBn(c)
-                ? "নুসুক অ্যাপের কোড আর কুইজ নিজে থেকেই করে দেয় Nusuk Auto। ফ্রী ডাউনলোড:\n" + SHARE_URL
-                : "Nusuk Auto adds Umrah codes and plays the Nusuk quiz for you. Free download:\n" + SHARE_URL;
-        Intent send = new Intent(Intent.ACTION_SEND).setType("text/plain")
+                ? "নুসুক অ্যাপের কোড আর কুইজ নিজে থেকেই করে দেয় Nusuk Auto।\n" + SHARE_URL
+                : "Nusuk Auto adds Umrah codes and plays the Nusuk quiz for you.\n" + SHARE_URL;
+
+        if (ApkShareProvider.apkFile(c) != null) {
+            try {
+                Uri uri = ApkShareProvider.apkUri();
+                Intent sendApk = new Intent(Intent.ACTION_SEND)
+                        .setType("application/vnd.android.package-archive")
+                        .putExtra(Intent.EXTRA_STREAM, uri)
+                        .putExtra(Intent.EXTRA_SUBJECT, "Nusuk Auto")
+                        .putExtra(Intent.EXTRA_TEXT, msg)
+                        .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                c.startActivity(Intent.createChooser(sendApk, L.t(c, "Share the app")));
+                return;
+            } catch (Exception ignored) {}
+        }
+
+        Intent sendText = new Intent(Intent.ACTION_SEND)
+                .setType("text/plain")
+                .putExtra(Intent.EXTRA_SUBJECT, "Nusuk Auto")
                 .putExtra(Intent.EXTRA_TEXT, msg);
         try {
-            c.startActivity(Intent.createChooser(send, L.t(c, "Share the app")));
+            c.startActivity(Intent.createChooser(sendText, L.t(c, "Share the app")));
         } catch (Exception e) {
             Toast.makeText(c, SHARE_URL, Toast.LENGTH_LONG).show();
         }

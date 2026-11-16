@@ -60,17 +60,31 @@ export default function App() {
       title: 'Quiz database updated',
       body: 'Added newly verified Umrah challenge questions for faster offline solving.',
       at: Date.now() - 3600_000,
-      url: 'https://nusuk.minbars.net/',
+      url: 'https://fynex.site',
       unread: true,
     },
     {
       id: 101,
       title: 'Version 2.7 released',
-      body: 'Minimal emerald design, updated branding, and refined overlay workflow.',
+      body: 'Minimal emerald design, Fynex branding, 3s startup ad, and GitHub forced updates.',
       at: Date.now() - 86400_000,
       unread: false,
     },
   ]);
+
+  // 3-second startup ad poster countdown (3 -> 2 -> 1), shown once on initial open
+  const [adSec, setAdSec] = useState<number | null>(3);
+  useEffect(() => {
+    if (adSec === null) return;
+    if (adSec <= 0) {
+      setAdSec(null);
+      return;
+    }
+    const id = window.setTimeout(() => {
+      setAdSec((s) => (s !== null && s > 1 ? s - 1 : null));
+    }, 1000);
+    return () => window.clearTimeout(id);
+  }, [adSec]);
 
   const [toast, setToast] = useState<string | null>(null);
   const toastTimer = useRef<number | null>(null);
@@ -481,8 +495,8 @@ export default function App() {
                 </h1>
                 <p className="text-[14px] text-[#71717A] mt-0.5">
                   {lang === 'bn'
-                    ? 'Android 8.0+ · Java 17 · ডেভেলপার: Ebrahim Khalil'
-                    : 'Android 8.0+ · Java 17 · Maintained by Ebrahim Khalil'}
+                    ? 'Android 8.0+ · Fynex · ডেভেলপার: Ebrahim Khalil'
+                    : 'Android 8.0+ · Fynex · Developer: Ebrahim Khalil'}
                 </p>
               </div>
 
@@ -538,6 +552,13 @@ export default function App() {
                     </div>
 
                     <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setAdSec(3)}
+                        className="inline-flex items-center gap-1.5 px-3 py-2 min-h-[38px] rounded-lg bg-[#ECFDF5] border border-[#BBF7D0] hover:bg-[#DCFCE7] text-[#166534] text-[13px] font-medium transition-colors"
+                      >
+                        <span>{lang === 'bn' ? '৩ সে. অ্যাড দেখুন' : 'Replay 3s Ad'}</span>
+                      </button>
                       {!overlay.visible && (
                         <button
                           type="button"
@@ -772,6 +793,40 @@ export default function App() {
           <span>{lang === 'bn' ? 'কুইজ ব্যাংক' : 'Quiz Bank'}</span>
         </button>
       </nav>
+
+      {/* 3-Second Startup Ad Poster Popup */}
+      {adSec !== null && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Fynex Sponsored Ad"
+          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-[2px] flex items-center justify-center p-4"
+        >
+          <div className="relative max-w-[360px] w-full rounded-[20px] overflow-hidden border-2 border-[#BBF7D0] bg-white shadow-2xl">
+            <a
+              href="https://fynex.site"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block"
+            >
+              <img
+                src="/assets/ad_poster.jpg"
+                alt="Fynex Sponsored Poster"
+                className="w-full h-auto max-h-[78vh] object-contain block"
+              />
+            </a>
+            <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-[#0F2E1E]/75 border border-[#BBF7D0]/40 text-white text-[11px] font-medium pointer-events-none">
+              {lang === 'bn' ? 'Fynex · স্পন্সরড' : 'Fynex · Sponsored'}
+            </span>
+            <div
+              className="absolute top-3 right-3 w-9 h-9 rounded-full bg-[#14532D]/90 border-2 border-[#BBF7D0] text-white text-[16px] font-semibold flex items-center justify-center tabular-nums shadow-md pointer-events-none"
+              aria-live="polite"
+            >
+              {fmtNum(lang, adSec)}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Toast Notification */}
       {toast && (
