@@ -16,15 +16,18 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nusuk.automator.R;
 import com.nusuk.automator.core.L;
 import com.nusuk.automator.core.Links;
+import com.nusuk.automator.update.UpdateChecker;
 
 /**
- * Full-focus 3-second startup poster ad popup with a live 3-2-1 countdown badge in the top-right corner.
- * Shown once per app open (does not re-appear when returning from in-app screens or changing language).
+ * Full-focus startup poster ad popup shown once per fresh app open.
+ * Displays a small "Sponsored" badge above the poster card and a 3-2-1 countdown corner badge
+ * that turns into a close (✕) button after 3 seconds; stays open until the user taps ✕.
  */
 public final class AdPopup {
     private static boolean shownThisOpen = false;
@@ -37,14 +40,24 @@ public final class AdPopup {
         shownThisOpen = false;
     }
 
+    /** Dismisses any visible startup ad dialog immediately (e.g. when a mandatory update blocks the app). */
+    public static void dismissIfShowing() {
+        Dialog d = activeDialog;
+        activeDialog = null;
+        if (d != null && d.isShowing()) {
+            try { d.dismiss(); } catch (Exception ignored) {}
+        }
+    }
+
     public static void showIfNeeded(Activity a) {
         if (shownThisOpen || a == null || a.isFinishing() || a.isDestroyed()) return;
+        if (UpdateChecker.isBlocked(a)) return;
         shownThisOpen = true;
 
         float dp = a.getResources().getDisplayMetrics().density;
         DisplayMetrics dm = a.getResources().getDisplayMetrics();
         int maxW = Math.min((int) (dm.widthPixels * 0.88f), (int) (360 * dp));
-        int maxH = (int) (dm.heightPixels * 0.78f);
+        int maxH = (int) (dm.heightPixels * 0.72f);
 
         Dialog dlg = new Dialog(a);
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -54,6 +67,54 @@ public final class AdPopup {
         FrameLayout outer = new FrameLayout(a);
         outer.setPadding((int) (16 * dp), (int) (16 * dp), (int) (16 * dp), (int) (16 * dp));
 
+        LinearLayout wrap = new LinearLayout(a);
+        wrap.setOrientation(LinearLayout.VERTICAL);
+        wrap.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        // Top header bar ABOVE the poster image: subtle "Sponsored" badge on left, 3-2-1 -> ✕ on right
+        LinearLayout topBar = new LinearLayout(a);
+        topBar.setOrientation(LinearLayout.HORIZONTAL);
+        topBar.setGravity(Gravity.CENTER_VERTICAL);
+        LinearLayout.LayoutParams topLp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        topLp.bottomMargin = (int) (8 * dp);
+
+        TextView sponsor = new TextView(a);
+        sponsor.setText(L.t(a, "Sponsored"));
+        sponsor.setTextColor(0xFFECFDF5);
+        sponsor.setTextSize(11);
+        sponsor.setTypeface(a.getResources().getFont(R.font.plex_medium));
+        sponsor.setPadding((int) (10 * dp), (int) (4 * dp), (int) (10 * dp), (int) (4 * dp));
+        GradientDrawable spBg = new GradientDrawable();
+        spBg.setCornerRadius(999f * dp);
+        spBg.setColor(0xCC0F2E1E);
+        spBg.setStroke((int) (1 * dp), 0x66BBF7D0);
+        sponsor.setBackground(spBg);
+        topBar.addView(sponsor, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        View spacer = new View(a);
+        topBar.addView(spacer, new LinearLayout.LayoutParams(0, 1, 1f));
+
+        TextView counter = new TextView(a);
+        counter.setText(L.t(a, "3"));
+        counter.setTextColor(0xFFFFFFFF);
+        counter.setTextSize(15);
+        counter.setTypeface(a.getResources().getFont(R.font.plex_medium));
+        counter.setGravity(Gravity.CENTER);
+        counter.setClickable(false);
+        counter.setFocusable(false);
+        GradientDrawable cBg = new GradientDrawable();
+        cBg.setShape(GradientDrawable.OVAL);
+        cBg.setColor(0xE614532D);
+        cBg.setStroke((int) (1.5f * dp), 0xFFBBF7D0);
+        counter.setBackground(cBg);
+        int badgeSize = (int) (36 * dp);
+        topBar.addView(counter, new LinearLayout.LayoutParams(badgeSize, badgeSize));
+
+        wrap.addView(topBar, topLp);
+
+        // Clean unobstructed poster card below the header bar
         FrameLayout card = new FrameLayout(a);
         GradientDrawable cardBg = new GradientDrawable();
         cardBg.setColor(0xFFFFFFFF);
@@ -74,49 +135,17 @@ public final class AdPopup {
         poster.setScaleType(ImageView.ScaleType.FIT_CENTER);
         poster.setMaxWidth(maxW);
         poster.setMaxHeight(maxH);
-        poster.setContentDescription(Links.COMPANY_NAME);
+        poster.setContentDescription(L.t(a, "Sponsored"));
         poster.setOnClickListener(v -> Links.open(a, Links.SITE_URL));
         card.addView(poster, new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
 
-        // Top-left subtle brand pill
-        TextView sponsor = new TextView(a);
-        sponsor.setText(L.t(a, "Fynex · Sponsored"));
-        sponsor.setTextColor(0xFFFFFFFF);
-        sponsor.setTextSize(11);
-        sponsor.setTypeface(a.getResources().getFont(R.font.plex_medium));
-        sponsor.setPadding((int) (10 * dp), (int) (4 * dp), (int) (10 * dp), (int) (4 * dp));
-        GradientDrawable spBg = new GradientDrawable();
-        spBg.setCornerRadius(999f * dp);
-        spBg.setColor(0xB80F2E1E);
-        spBg.setStroke((int) (1 * dp), 0x66BBF7D0);
-        sponsor.setBackground(spBg);
-        FrameLayout.LayoutParams spLp = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
-                Gravity.TOP | Gravity.START);
-        spLp.setMargins((int) (12 * dp), (int) (12 * dp), 0, 0);
-        card.addView(sponsor, spLp);
+        wrap.addView(card, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        // Top-right 3-2-1 countdown corner badge
-        TextView counter = new TextView(a);
-        counter.setText(L.t(a, "3"));
-        counter.setTextColor(0xFFFFFFFF);
-        counter.setTextSize(16);
-        counter.setTypeface(a.getResources().getFont(R.font.plex_medium));
-        counter.setGravity(Gravity.CENTER);
-        GradientDrawable cBg = new GradientDrawable();
-        cBg.setShape(GradientDrawable.OVAL);
-        cBg.setColor(0xD914532D);
-        cBg.setStroke((int) (2 * dp), 0xFFBBF7D0);
-        counter.setBackground(cBg);
-        int badgeSize = (int) (36 * dp);
-        FrameLayout.LayoutParams cLp = new FrameLayout.LayoutParams(badgeSize, badgeSize, Gravity.TOP | Gravity.END);
-        cLp.setMargins(0, (int) (12 * dp), (int) (12 * dp), 0);
-        card.addView(counter, cLp);
-
-        FrameLayout.LayoutParams cardLp = new FrameLayout.LayoutParams(
+        FrameLayout.LayoutParams wrapLp = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-        outer.addView(card, cardLp);
+        outer.addView(wrap, wrapLp);
         dlg.setContentView(outer);
 
         Window win = dlg.getWindow();
@@ -124,7 +153,7 @@ public final class AdPopup {
             win.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             win.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
             win.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-            win.setDimAmount(0.72f);
+            win.setDimAmount(0.75f);
         }
 
         Handler h = new Handler(Looper.getMainLooper());
@@ -138,16 +167,28 @@ public final class AdPopup {
                 counter.setText(L.t(a, "1"));
             }
         };
-        Runnable close = () -> {
+        Runnable unlockClose = () -> {
             if (dlg.isShowing() && !a.isFinishing() && !a.isDestroyed()) {
-                try { dlg.dismiss(); } catch (Exception ignored) {}
+                counter.setText("\u2715");
+                counter.setTextSize(17);
+                counter.setContentDescription(L.t(a, "Close"));
+                counter.setClickable(true);
+                counter.setFocusable(true);
+                GradientDrawable closeBg = new GradientDrawable();
+                closeBg.setShape(GradientDrawable.OVAL);
+                closeBg.setColor(0xF018181B);
+                closeBg.setStroke((int) (1.5f * dp), 0xFFFFFFFF);
+                counter.setBackground(closeBg);
+                counter.setOnClickListener(v -> {
+                    try { dlg.dismiss(); } catch (Exception ignored) {}
+                });
             }
         };
 
         dlg.setOnDismissListener(d -> {
             h.removeCallbacks(tick2);
             h.removeCallbacks(tick1);
-            h.removeCallbacks(close);
+            h.removeCallbacks(unlockClose);
             if (activeDialog == d) activeDialog = null;
         });
 
@@ -156,7 +197,7 @@ public final class AdPopup {
             dlg.show();
             h.postDelayed(tick2, 1000L);
             h.postDelayed(tick1, 2000L);
-            h.postDelayed(close, 3000L);
+            h.postDelayed(unlockClose, 3000L);
         } catch (Exception ignored) {
             activeDialog = null;
         }

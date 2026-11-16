@@ -767,7 +767,7 @@ export function PhoneApp({
                   </a>
                   <a
                     href="mailto:skyebrahimkhalil@gmail.com"
-                    className="flex items-center gap-3.5 px-4 min-h-[64px] hover:bg-[#FAFAFA] transition-colors"
+                    className="flex items-center gap-3.5 px-4 min-h-[64px] hover:bg-[#FAFAFA] transition-colors rounded-b-2xl"
                   >
                     <div className="w-10 h-10 rounded-full bg-[#ECFDF5] flex items-center justify-center shrink-0">
                       <Mail className="w-5 h-5 text-[#15803D]" />
@@ -778,44 +778,6 @@ export function PhoneApp({
                       </div>
                       <div className="text-[13.5px] text-[#71717A] truncate">
                         skyebrahimkhalil@gmail.com
-                      </div>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-[#A1A1AA] shrink-0" />
-                  </a>
-                  <a
-                    href="https://github.com/7yu659"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3.5 px-4 min-h-[64px] hover:bg-[#FAFAFA] transition-colors"
-                  >
-                    <div className="w-10 h-10 rounded-full bg-[#ECFDF5] flex items-center justify-center shrink-0">
-                      <ExternalLink className="w-5 h-5 text-[#15803D]" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-[16px] font-medium text-[#18181B]">
-                        {t(lang, 'GitHub')}
-                      </div>
-                      <div className="text-[13.5px] text-[#71717A] truncate">
-                        github.com/7yu659
-                      </div>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-[#A1A1AA] shrink-0" />
-                  </a>
-                  <a
-                    href="https://www.facebook.com/groups/nusukauto/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3.5 px-4 min-h-[64px] hover:bg-[#FAFAFA] transition-colors rounded-b-2xl"
-                  >
-                    <div className="w-10 h-10 rounded-full bg-[#ECFDF5] flex items-center justify-center shrink-0">
-                      <Users className="w-5 h-5 text-[#15803D]" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-[16px] font-medium text-[#18181B]">
-                        {t(lang, 'Facebook group')}
-                      </div>
-                      <div className="text-[13.5px] text-[#71717A] truncate">
-                        facebook.com/groups/nusukauto
                       </div>
                     </div>
                     <ChevronRight className="w-4 h-4 text-[#A1A1AA] shrink-0" />
@@ -1124,7 +1086,7 @@ export function PhoneApp({
             </button>
 
             <a
-              href="https://www.facebook.com/groups/nusukauto/"
+              href="https://www.facebook.com/share/1CnXaXQFoL/"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full flex items-center gap-3.5 px-4 min-h-[60px] text-left hover:bg-[#FAFAFA] transition-colors"
@@ -1133,7 +1095,7 @@ export function PhoneApp({
                 <Users className="w-5 h-5 text-[#15803D]" />
               </div>
               <span className="flex-1 text-[16px] text-[#18181B]">
-                {t(lang, 'Join our Facebook group')}
+                {t(lang, 'Follow on Facebook')}
               </span>
               <ChevronRight className="w-4 h-4 text-[#A1A1AA] shrink-0" />
             </a>

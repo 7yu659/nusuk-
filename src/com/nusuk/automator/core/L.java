@@ -460,7 +460,8 @@ public final class L {
         r("The server could not add the codes right now \\(error (\\d+)\\)\\. Please try again later\\.", "সার্ভার এখন কোড অ্যাড করতে পারছে না (এরর $1)। একটু পরে আবার চেষ্টা করো।");
 
         // ----- Fynex corporate developer, ad popup & GitHub forced update -----
-        x("Fynex · Sponsored", "Fynex · স্পন্সরড");
+        x("Sponsored", "স্পন্সরড");
+        x("Follow on Facebook", "ফেসবুকে যুক্ত হও");
         x("FYNEX · SOFTWARE & AUTOMATION", "FYNEX · সফটওয়্যার ও অটোমেশন");
         x("Founder & Lead Developer · Fynex", "প্রতিষ্ঠাতা ও প্রধান ডেভেলপার · Fynex");
         x("Built by Fynex", "Fynex দ্বারা নির্মিত");
@@ -475,6 +476,10 @@ public final class L {
                 "চালিয়ে যেতে নতুন APK ডাউনলোড করে ইনস্টল করো।");
         x("Update failed. Try again or download it from GitHub.",
                 "আপডেট হয়নি। আবার চেষ্টা করো, অথবা গিটহাব থেকে ডাউনলোড করো।");
+        x("Different app signature", "অ্যাপের সিগনেচার আলাদা");
+        x("This update is signed with a different key. Uninstall the old app once, then install the new APK from GitHub.",
+                "নতুন আপডেটটি ভিন্ন কী (Key) দিয়ে সাইন করা হয়েছে। শুধু এই একবার পুরনো অ্যাপটি Uninstall করে গিটহাব থেকে নতুন APK ইনস্টল করো।");
+        x("Download APK", "APK ডাউনলোড");
         x("Nusuk Auto is developed and maintained by Ebrahim Khalil at Fynex (fynex.site) to help Umrah pilgrims automate Nusuk codes and challenges safely.",
                 "Nusuk Auto-টি Fynex (fynex.site)-এর অধীনে ইব্রাহিম খলিল তৈরি ও পরিচালনা করেন, যাতে ওমরাহ যাত্রীরা সহজে নুসুক কোড ও কুইজ অটোমেট করতে পারেন।");
         x("This helper is independent and not affiliated with the Nusuk app or the Ministry of Hajj and Umrah.",

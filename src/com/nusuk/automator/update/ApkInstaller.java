@@ -80,6 +80,8 @@ final class ApkInstaller {
                 .setView(box)
                 .setCancelable(false)
                 .create();
+        dlg.setCanceledOnTouchOutside(false);
+        dlg.setOnKeyListener((d, keyCode, event) -> keyCode == android.view.KeyEvent.KEYCODE_BACK);
         dlg.show();
 
         final Context app = a.getApplicationContext();
@@ -122,7 +124,12 @@ final class ApkInstaller {
                 }
                 Activity act = actRef.get();
                 if (sigDiff && act != null && !act.isFinishing() && !act.isDestroyed()) {
-                    UpdateChecker.openDownload(act, info);
+                    new AlertDialog.Builder(act)
+                            .setTitle(L.t(act, "Different app signature"))
+                            .setMessage(L.t(act, "This update is signed with a different key. Uninstall the old app once, then install the new APK from GitHub."))
+                            .setPositiveButton(L.t(act, "Download APK"), (dl, w) -> UpdateChecker.openDownload(act, info))
+                            .setNegativeButton(L.t(act, "Cancel"), null)
+                            .show();
                     return;
                 }
                 if (err != null) {

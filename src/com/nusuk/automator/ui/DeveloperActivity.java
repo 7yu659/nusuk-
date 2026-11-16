@@ -209,14 +209,6 @@ public class DeveloperActivity extends ScreenActivity {
                 Links.open(this, Links.DEV_URL);
             }
         }));
-        links.addView(divider());
-
-        links.addView(linkRow(R.drawable.ic_github_line, "GitHub", "github.com/7yu659",
-                () -> Links.open(this, Links.GITHUB_URL)));
-        links.addView(divider());
-
-        links.addView(linkRow(R.drawable.ic_group_line, "Facebook group", "facebook.com/groups/nusukauto",
-                () -> Links.openFacebook(this, Links.groupUrl(this))));
 
         // ----- Company & App Info -----
         label("About the app", 22);

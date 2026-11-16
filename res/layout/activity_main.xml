@@ -732,7 +732,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="14dp"
                         android:layout_weight="1"
-                        android:text="Join our Facebook group"
+                        android:text="Follow on Facebook"
                         android:textColor="#1C1917"
                         android:textSize="17sp" />
 

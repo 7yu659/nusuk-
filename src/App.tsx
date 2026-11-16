@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Check, CheckCircle2, KeyRound, Play, RotateCcw, ShieldCheck, Smartphone } from 'lucide-react';
+import { Check, CheckCircle2, KeyRound, Play, RotateCcw, ShieldCheck, Smartphone, X } from 'lucide-react';
 import { OverlayWidget } from './web/OverlayWidget';
 import { PhoneApp } from './web/PhoneApp';
 import { QuizBankPanel, getQuizEntries } from './web/QuizBankPanel';
@@ -72,19 +72,16 @@ export default function App() {
     },
   ]);
 
-  // 3-second startup ad poster countdown (3 -> 2 -> 1), shown once on initial open
-  const [adSec, setAdSec] = useState<number | null>(3);
+  // 3-second startup ad poster countdown (3 -> 2 -> 1 -> close button), stays open until user taps ✕
+  const [adOpen, setAdOpen] = useState(true);
+  const [adSec, setAdSec] = useState(3);
   useEffect(() => {
-    if (adSec === null) return;
-    if (adSec <= 0) {
-      setAdSec(null);
-      return;
-    }
+    if (!adOpen || adSec <= 0) return;
     const id = window.setTimeout(() => {
-      setAdSec((s) => (s !== null && s > 1 ? s - 1 : null));
+      setAdSec((s) => Math.max(0, s - 1));
     }, 1000);
     return () => window.clearTimeout(id);
-  }, [adSec]);
+  }, [adOpen, adSec]);
 
   const [toast, setToast] = useState<string | null>(null);
   const toastTimer = useRef<number | null>(null);
@@ -554,7 +551,10 @@ export default function App() {
                     <div className="flex items-center gap-2">
                       <button
                         type="button"
-                        onClick={() => setAdSec(3)}
+                        onClick={() => {
+                          setAdSec(3);
+                          setAdOpen(true);
+                        }}
                         className="inline-flex items-center gap-1.5 px-3 py-2 min-h-[38px] rounded-lg bg-[#ECFDF5] border border-[#BBF7D0] hover:bg-[#DCFCE7] text-[#166534] text-[13px] font-medium transition-colors"
                       >
                         <span>{lang === 'bn' ? '৩ সে. অ্যাড দেখুন' : 'Replay 3s Ad'}</span>
@@ -794,35 +794,51 @@ export default function App() {
         </button>
       </nav>
 
-      {/* 3-Second Startup Ad Poster Popup */}
-      {adSec !== null && (
+      {/* Startup Ad Poster Popup (Sponsored badge above image; 3-2-1 turns into persistent ✕ button) */}
+      {adOpen && (
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="Fynex Sponsored Ad"
-          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-[2px] flex items-center justify-center p-4"
+          aria-label="Sponsored Ad"
+          className="fixed inset-0 z-50 bg-black/75 backdrop-blur-[2px] flex items-center justify-center p-4"
         >
-          <div className="relative max-w-[360px] w-full rounded-[20px] overflow-hidden border-2 border-[#BBF7D0] bg-white shadow-2xl">
-            <a
-              href="https://fynex.site"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block"
-            >
-              <img
-                src="/assets/ad_poster.jpg"
-                alt="Fynex Sponsored Poster"
-                className="w-full h-auto max-h-[78vh] object-contain block"
-              />
-            </a>
-            <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-[#0F2E1E]/75 border border-[#BBF7D0]/40 text-white text-[11px] font-medium pointer-events-none">
-              {lang === 'bn' ? 'Fynex · স্পন্সরড' : 'Fynex · Sponsored'}
-            </span>
-            <div
-              className="absolute top-3 right-3 w-9 h-9 rounded-full bg-[#14532D]/90 border-2 border-[#BBF7D0] text-white text-[16px] font-semibold flex items-center justify-center tabular-nums shadow-md pointer-events-none"
-              aria-live="polite"
-            >
-              {fmtNum(lang, adSec)}
+          <div className="max-w-[360px] w-full flex flex-col">
+            <div className="flex items-center justify-between mb-2">
+              <span className="px-2.5 py-1 rounded-full bg-[#0F2E1E]/85 border border-[#BBF7D0]/40 text-[#ECFDF5] text-[11px] font-medium">
+                {t(lang, 'Sponsored')}
+              </span>
+              {adSec > 0 ? (
+                <div
+                  className="w-9 h-9 rounded-full bg-[#14532D]/90 border-[1.5px] border-[#BBF7D0] text-white text-[15px] font-semibold flex items-center justify-center tabular-nums shadow-md pointer-events-none"
+                  aria-live="polite"
+                >
+                  {fmtNum(lang, adSec)}
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setAdOpen(false)}
+                  aria-label={t(lang, 'Close')}
+                  className="w-9 h-9 rounded-full bg-[#18181B] hover:bg-[#27272A] border-[1.5px] border-white text-white flex items-center justify-center shadow-md transition-colors focus-visible:outline-2 focus-visible:outline-white"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+
+            <div className="rounded-[20px] overflow-hidden border-2 border-[#BBF7D0] bg-white shadow-2xl">
+              <a
+                href="https://fynex.site"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
+              >
+                <img
+                  src="/assets/ad_poster.jpg"
+                  alt="Sponsored Poster"
+                  className="w-full h-auto max-h-[72vh] object-contain block"
+                />
+              </a>
             </div>
           </div>
         </div>

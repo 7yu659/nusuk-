@@ -28,7 +28,10 @@ const EXACT: Record<string, string> = {
   'Settings': 'সেটিংস',
   'Help & guides': 'হেল্প ও গাইড',
   'Join our Facebook group': 'ফেসবুক গ্রুপে জয়েন করো',
+  'Follow on Facebook': 'ফেসবুকে যুক্ত হও',
   'Share the app': 'অ্যাপটা শেয়ার করো',
+  'Sponsored': 'স্পন্সরড',
+  'Close': 'ক্লোজ',
   'ALSO BY THE DEVELOPER': 'ডেভেলপারের আরেকটি কাজ',
   'Al Fitan': 'আল ফিতান',
   'The first and largest digital archive on Fitan and the end times.': 'ফিতনা ও শেষ জামানা বিষয়ক সর্বপ্রথম ও সর্ববৃহত ডিজিটাল আর্কাইভ',
@@ -117,7 +120,6 @@ const EXACT: Record<string, string> = {
   'Developer of Nusuk Auto': 'Nusuk Auto-র ডেভেলপার',
   'Connect': 'যোগাযোগ',
   'Facebook profile': 'ফেসবুক প্রোফাইল',
-  'GitHub': 'গিটহাব',
   'Website': 'ওয়েবসাইট',
   'About the app': 'অ্যাপ সম্পর্কে',
   'Nusuk Auto is developed and maintained by Ebrahim Khalil at Fynex (fynex.site) to help Umrah pilgrims automate Nusuk codes and challenges safely.':

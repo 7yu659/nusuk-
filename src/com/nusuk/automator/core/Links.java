@@ -2,21 +2,19 @@ package com.nusuk.automator.core;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.View;
 import android.widget.Toast;
 
 /** Outside links and sharing helpers shared across every screen. */
 public final class Links {
-    static final String GROUP_URL = "https://www.facebook.com/groups/nusukauto/";
-    public static final String FB_PROFILE_URL = "https://www.facebook.com/share/1CnXaXQFoL/";
+    static final String GROUP_URL = "https://www.facebook.com/share/1CnXaXQFoL/";
+    public static final String FB_PROFILE_URL = GROUP_URL;
     public static final String WHATSAPP_NUMBER = "01305359691";
     public static final String WHATSAPP_URL = "https://wa.me/8801305359691";
     public static final String DEV_EMAIL = "skyebrahimkhalil@gmail.com";
     public static final String DEV_URL = "mailto:skyebrahimkhalil@gmail.com";
     public static final String GITHUB_REPO = "7yu659/Nusuk";
-    public static final String GITHUB_URL = "https://github.com/7yu659";
     public static final String GITHUB_RELEASES_URL = "https://github.com/" + GITHUB_REPO + "/releases";
     public static final String WEB_URL = "https://fynex.site/";
     public static final String DEV_NAME = "Ebrahim Khalil";
@@ -37,6 +35,7 @@ public final class Links {
     private static final String[] TRUSTED_HOSTS = {
             "fynex.site", "facebook.com", "fb.com", "fb.me",
             "github.com", "githubusercontent.com", "objects.githubusercontent.com",
+            "release-assets.githubusercontent.com",
             "play.google.com", "youtube.com", "youtu.be", "wa.me", "whatsapp.com", "t.me"
     };
 
@@ -49,17 +48,13 @@ public final class Links {
         return false;
     }
 
-    private static SharedPreferences prefs(Context c) {
-        return c.getApplicationContext().getSharedPreferences("links", Context.MODE_PRIVATE);
-    }
-
-    /** Remembers the admin's group link from the server so every screen uses it. */
+    /** Kept for server-sync compatibility; Facebook links always resolve to the developer's link. */
     public static void saveGroupUrl(Context c, String url) {
-        if (isTrusted(url)) prefs(c).edit().putString("group", url).apply();
+        // Intentionally pinned to FB_PROFILE_URL.
     }
 
     public static String groupUrl(Context c) {
-        return prefs(c).getString("group", GROUP_URL);
+        return FB_PROFILE_URL;
     }
 
     /** Opens a Facebook page or profile in Facebook app / Lite, falling back to browser. */

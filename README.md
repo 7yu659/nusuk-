@@ -12,7 +12,7 @@
 [![Dependencies](https://img.shields.io/badge/third--party%20libraries-0-success)](#architecture)
 [![Interface](https://img.shields.io/badge/interface-English%20%7C%20%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE-0a7ea4)](#features)
 
-[**Download APK**](https://github.com/7yu659/Nusuk/releases/latest) &nbsp;·&nbsp; [Website](https://fynex.site) &nbsp;·&nbsp; [Facebook](https://www.facebook.com/share/1CnXaXQFoL/) &nbsp;·&nbsp; [WhatsApp](https://wa.me/8801305359691) &nbsp;·&nbsp; [Facebook group](https://www.facebook.com/groups/nusukauto/)
+[**Download APK**](https://github.com/7yu659/Nusuk/releases/latest) &nbsp;·&nbsp; [Website](https://fynex.site) &nbsp;·&nbsp; [Facebook](https://www.facebook.com/share/1CnXaXQFoL/) &nbsp;·&nbsp; [WhatsApp](https://wa.me/8801305359691)
 
 <br>
 
@@ -300,7 +300,7 @@ Bug reports and fixes are welcome.
 - **New texts** in the app are written in English in the code, with the Bangla version added in
   `core/L.java`.
 
-Questions and ideas are easier in the [Facebook group](https://www.facebook.com/groups/nusukauto/).
+Questions and ideas are welcome on [Facebook](https://www.facebook.com/share/1CnXaXQFoL/).
 
 ## Security
 
@@ -326,7 +326,6 @@ The bundled IBM Plex fonts are under the SIL Open Font License (`assets/OFL-IBM-
 | Website | <https://fynex.site> |
 | Developer (Facebook) | <https://www.facebook.com/share/1CnXaXQFoL/> |
 | Developer (WhatsApp) | <https://wa.me/8801305359691> |
-| Community (Facebook group) | <https://www.facebook.com/groups/nusukauto/> |
 | Source code | <https://github.com/7yu659/Nusuk> |
 
 The APK on GitHub Releases is the official build. Nusuk Auto is not on Google Play.
@@ -334,7 +333,7 @@ The APK on GitHub Releases is the official build. Nusuk Auto is not on Google Pl
 ## Credits
 
 - **Ebrahim Khalil** — Design, development and maintenance (`skyebrahimkhalil@gmail.com`)
-- **The Nusuk Auto community.** Members of the [Facebook group](https://www.facebook.com/groups/nusukauto/)
+- **The Nusuk Auto community.** Users on [Facebook](https://www.facebook.com/share/1CnXaXQFoL/)
   share key codes, test every release on their own phones and report what breaks.
 - **IBM Plex** by IBM, the typeface used across the app, under the
   [SIL Open Font License 1.1](assets/OFL-IBM-Plex.txt).

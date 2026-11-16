@@ -27,6 +27,11 @@ jobs:
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Locate Android project, compile APK, and prepare version metadata
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASS: ${{ secrets.ANDROID_KEYSTORE_PASS }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASS: ${{ secrets.ANDROID_KEY_PASS }}
         run: |
           set -e
           MANIFEST_PATH="$(find . -maxdepth 4 -name "AndroidManifest.xml" -not -path "./build*" -not -path "./node_modules/*" | head -n 1 || true)"
@@ -63,12 +68,15 @@ jobs:
           mkdir -p "$OUT/gen" "$OUT/classes"
           cd "$ROOT_DIR"
 
-          # Stamp GitHub build number into strings.xml so newer GitHub pushes force update
+          # Stamp monotonically increasing versionCode and github_build so every push triggers forced update
+          BASE_VERSION_CODE="$(grep -o 'android:versionCode="[0-9]*"' AndroidManifest.xml | head -n 1 | grep -o '[0-9]*' || echo 21)"
+          VERSION_CODE=$((BASE_VERSION_CODE + GITHUB_RUN_NUMBER))
+          sed -i "s|android:versionCode=\"[0-9]*\"|android:versionCode=\"${VERSION_CODE}\"|" AndroidManifest.xml
+
           if [ -f "res/values/strings.xml" ]; then
             sed -i "s|<string name=\"github_build\" translatable=\"false\">[^<]*</string>|<string name=\"github_build\" translatable=\"false\">${GITHUB_RUN_NUMBER}</string>|" res/values/strings.xml
           fi
 
-          VERSION_CODE="$(grep -o 'android:versionCode="[0-9]*"' AndroidManifest.xml | head -n 1 | grep -o '[0-9]*' || echo 21)"
           VERSION_NAME="$(grep -o 'android:versionName="[^"]*"' AndroidManifest.xml | head -n 1 | cut -d'"' -f2 || echo 2.7)"
           TAG="v${VERSION_NAME}-b${GITHUB_RUN_NUMBER}"
 
@@ -86,10 +94,25 @@ jobs:
           (cd "$OUT" && zip -q unaligned.apk classes*.dex)
 
           "$TOOLS/zipalign" -f -p 4 "$OUT/unaligned.apk" "$OUT/aligned.apk"
-          keytool -genkeypair -keystore "$OUT/debug.keystore" -storepass android -keypass android -alias debug \
-            -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Ebrahim Khalil"
-          "$TOOLS/apksigner" sign --ks "$OUT/debug.keystore" --ks-pass pass:android \
-            --out "$OUT/nusuk-auto.apk" "$OUT/aligned.apk"
+
+          KEY_PASS="${ANDROID_KEY_PASS:-$ANDROID_KEYSTORE_PASS}"
+          if [ -n "$ANDROID_KEYSTORE_BASE64" ] && [ -n "$ANDROID_KEYSTORE_PASS" ] && [ -n "$ANDROID_KEY_ALIAS" ]; then
+            echo "Signing APK with permanent release keystore from GitHub Secrets..."
+            echo "$ANDROID_KEYSTORE_BASE64" | tr -d '[:space:]' | base64 --decode > "$OUT/release.keystore"
+            "$TOOLS/apksigner" sign \
+              --ks "$OUT/release.keystore" \
+              --ks-key-alias "$ANDROID_KEY_ALIAS" \
+              --ks-pass "pass:${ANDROID_KEYSTORE_PASS}" \
+              --key-pass "pass:${KEY_PASS}" \
+              --out "$OUT/nusuk-auto.apk" \
+              "$OUT/aligned.apk"
+          else
+            echo "WARNING: Permanent keystore secrets not set. Falling back to temporary debug keystore (in-app auto-install requires matching release keystore secrets)."
+            keytool -genkeypair -keystore "$OUT/debug.keystore" -storepass android -keypass android -alias debug \
+              -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Ebrahim Khalil"
+            "$TOOLS/apksigner" sign --ks "$OUT/debug.keystore" --ks-pass pass:android \
+              --out "$OUT/nusuk-auto.apk" "$OUT/aligned.apk"
+          fi
 
           SHA256="$(sha256sum "$OUT/nusuk-auto.apk" | awk '{print $1}')"
           cat > "$OUT/version.json" <<EOF
@@ -119,6 +142,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release delete "$RELEASE_TAG" -y || true
+          fi
           gh release create "$RELEASE_TAG" \
             "$GITHUB_WORKSPACE/build-out/nusuk-auto.apk" \
             "$GITHUB_WORKSPACE/build-out/version.json" \

@@ -106,6 +106,7 @@ public class MainActivity extends Activity implements KeyRepository.ChangeListen
         Notices.schedule(this);
         askNotificationPermission();
 
+        UpdateChecker.autoCheck(this, this::renderVersionBadge, true);
         if (!UpdateChecker.isBlocked(this)) {
             AdPopup.showIfNeeded(this);
         }

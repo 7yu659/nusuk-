@@ -27,24 +27,28 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.nusuk.automator.R;
+import com.nusuk.automator.automation.AutomationService;
 import com.nusuk.automator.core.AppInfo;
 import com.nusuk.automator.core.L;
 import com.nusuk.automator.core.Links;
+import com.nusuk.automator.ui.AdPopup;
 
 /**
  * Mandatory GitHub-driven update checker.
- * Checks GitHub Releases (`api.github.com/repos/7yu659/Nusuk/releases/latest`) and raw
- * `version.json` on `main`. Whenever ANY newer release/build exists on GitHub, the user
- * is blocked by an un-dismissible force-update dialog until they install the update.
+ * Queries GitHub Releases API (with a rate-limit-free releases/latest redirect fallback, plus raw
+ * version.json fallback). Whenever ANY newer release/build exists on GitHub, the user is blocked by
+ * an un-dismissible force-update modal until they download and install the new APK.
  */
 public final class UpdateChecker {
     private static final String TAG = "UpdateChecker";
     private static final String GITHUB_LATEST_API =
             "https://api.github.com/repos/" + Links.GITHUB_REPO + "/releases/latest";
+    private static final String GITHUB_LATEST_PAGE =
+            "https://github.com/" + Links.GITHUB_REPO + "/releases/latest";
     private static final String RAW_VERSION_URL =
             "https://raw.githubusercontent.com/" + Links.GITHUB_REPO + "/main/version.json";
     private static final String DEFAULT_URL = Links.GITHUB_RELEASES_URL;
-    private static final long CHECK_MIN_GAP_MS = 15_000L; // avoids rate-limiting on rapid Activity switches
+    private static final long CHECK_MIN_GAP_MS = 15_000L; // avoids spamming on rapid Activity switches
     private static final String PREFS = "update";
 
     private static final ExecutorService exec = Executors.newSingleThreadExecutor();
@@ -94,8 +98,13 @@ public final class UpdateChecker {
         return cached != null && isNewer(c, cached);
     }
 
-    /** Checks GitHub on app open/resume; forces an un-dismissible update dialog whenever any update exists. */
+    /** Checks GitHub on app resume; enforces an un-dismissible update modal whenever any update exists. */
     public static void autoCheck(Activity a, Listener badge) {
+        autoCheck(a, badge, false);
+    }
+
+    /** Checks GitHub immediately when {@code forceFresh} is true (e.g. fresh app open). */
+    public static void autoCheck(Activity a, Listener badge, boolean forceFresh) {
         SharedPreferences p = prefs(a);
         Info cached = readCached(a);
         if (cached != null) {
@@ -106,7 +115,7 @@ public final class UpdateChecker {
             }
         }
         long now = System.currentTimeMillis();
-        if (now - p.getLong("lastCheck", 0) < CHECK_MIN_GAP_MS) return;
+        if (!forceFresh && now - p.getLong("lastCheck", 0) < CHECK_MIN_GAP_MS) return;
         fetch(a, info -> {
             p.edit().putLong("lastCheck", System.currentTimeMillis()).apply();
             if (badge != null) badge.onChecked(info);
@@ -130,8 +139,8 @@ public final class UpdateChecker {
         int curBuild = currentBuildNumber(c);
         String curName = AppInfo.versionName(c);
         if (i.versionCode > curCode) return true;
-        if (i.versionCode == curCode && i.buildNumber > curBuild && curBuild > 0) return true;
-        if (i.buildNumber > curBuild && curBuild > 0 && i.versionCode == 0) return true;
+        if (i.versionCode == curCode && i.buildNumber > curBuild && i.buildNumber > 0) return true;
+        if (i.versionCode == 0 && i.buildNumber > curBuild && i.buildNumber > 0) return true;
         return compareSemver(i.versionName, curName) > 0;
     }
 
@@ -216,18 +225,37 @@ public final class UpdateChecker {
         }
     }
 
-    private static Info fetchFromGithubRelease() throws Exception {
-        String body = httpGet(GITHUB_LATEST_API);
-        JSONObject rel = new JSONObject(body);
+    private static Info infoFromTag(String tag, String htmlUrl) {
         Info info = new Info();
-        String tag = rel.optString("tag_name", "").trim();
         info.versionName = tag.replaceFirst("^[vV]", "").split("-")[0];
-        info.htmlUrl = rel.optString("html_url", DEFAULT_URL);
-        info.url = info.htmlUrl;
-        info.notes = rel.optString("body", "").trim();
-
+        info.htmlUrl = htmlUrl != null && !htmlUrl.isEmpty() ? htmlUrl : DEFAULT_URL;
+        info.url = "https://github.com/" + Links.GITHUB_REPO + "/releases/download/" + tag + "/nusuk-auto.apk";
         Matcher bm = BUILD_TAG_RE.matcher(tag);
         if (bm.find()) info.buildNumber = parseIntSafe(bm.group(1));
+        return info;
+    }
+
+    private static Info mergeAssetVersionJson(Info base, String versionAssetUrl) {
+        if (versionAssetUrl == null || versionAssetUrl.isEmpty()) return base;
+        try {
+            Info exact = parseInfoJson(new JSONObject(httpGet(versionAssetUrl)));
+            if (exact.versionCode > 0) base.versionCode = exact.versionCode;
+            if (exact.buildNumber > 0) base.buildNumber = exact.buildNumber;
+            if (!exact.versionName.isEmpty()) base.versionName = exact.versionName;
+            if (!exact.url.isEmpty()) base.url = exact.url;
+            if (!exact.htmlUrl.isEmpty()) base.htmlUrl = exact.htmlUrl;
+            if (!exact.sha256.isEmpty()) base.sha256 = exact.sha256;
+            if (!exact.notes.isEmpty()) base.notes = exact.notes;
+        } catch (Exception ignored) {}
+        return base;
+    }
+
+    private static Info fetchFromGithubReleaseApi() throws Exception {
+        String body = httpGet(GITHUB_LATEST_API);
+        JSONObject rel = new JSONObject(body);
+        String tag = rel.optString("tag_name", "").trim();
+        Info info = infoFromTag(tag, rel.optString("html_url", DEFAULT_URL));
+        info.notes = rel.optString("body", "").trim();
 
         JSONArray assets = rel.optJSONArray("assets");
         String versionAssetUrl = null;
@@ -244,21 +272,37 @@ public final class UpdateChecker {
                 }
             }
         }
-        if (versionAssetUrl != null) {
-            try {
-                Info exact = parseInfoJson(new JSONObject(httpGet(versionAssetUrl)));
-                if (exact.versionCode > 0) info.versionCode = exact.versionCode;
-                if (exact.buildNumber > 0) info.buildNumber = exact.buildNumber;
-                if (!exact.versionName.isEmpty()) info.versionName = exact.versionName;
-                if (!exact.url.isEmpty()) info.url = exact.url;
-                if (!exact.sha256.isEmpty()) info.sha256 = exact.sha256;
-                if (!exact.notes.isEmpty()) info.notes = exact.notes;
-            } catch (Exception ignored) {}
-        }
-        return info;
+        return mergeAssetVersionJson(info, versionAssetUrl);
     }
 
-    /** Queries GitHub Releases first, falling back to raw version.json on main. */
+    /** Rate-limit-free fallback: inspects the 302 Location of /releases/latest to resolve tag & version.json. */
+    private static Info fetchFromLatestRedirect() throws Exception {
+        HttpURLConnection conn = (HttpURLConnection) new URL(GITHUB_LATEST_PAGE).openConnection();
+        conn.setRequestMethod("HEAD");
+        conn.setRequestProperty("User-Agent", "NusukAuto-Android");
+        conn.setInstanceFollowRedirects(false);
+        conn.setConnectTimeout(8000);
+        conn.setReadTimeout(8000);
+        conn.setUseCaches(false);
+        String loc;
+        try {
+            int code = conn.getResponseCode();
+            loc = conn.getHeaderField("Location");
+            if ((code < 300 || code >= 400) || loc == null || !loc.contains("/releases/tag/")) {
+                throw new Exception("No release redirect (" + code + ")");
+            }
+        } finally {
+            conn.disconnect();
+        }
+        int idx = loc.indexOf("/releases/tag/");
+        String tag = loc.substring(idx + "/releases/tag/".length()).split("[?#]")[0].trim();
+        if (tag.isEmpty()) throw new Exception("Empty release tag");
+        Info info = infoFromTag(tag, loc);
+        String verUrl = "https://github.com/" + Links.GITHUB_REPO + "/releases/download/" + tag + "/version.json";
+        return mergeAssetVersionJson(info, verUrl);
+    }
+
+    /** Queries GitHub Releases API, then /releases/latest redirect, then raw version.json on main. */
     private static void fetch(Activity a, Listener cb, boolean reportErrors) {
         final Context app = a.getApplicationContext();
         exec.execute(() -> {
@@ -267,10 +311,15 @@ public final class UpdateChecker {
             try {
                 Info candidate = null;
                 try {
-                    candidate = fetchFromGithubRelease();
-                } catch (Exception relErr) {
-                    Log.w(TAG, "GitHub release check failed, trying raw version.json: " + relErr);
-                    candidate = parseInfoJson(new JSONObject(httpGet(RAW_VERSION_URL + "?t=" + System.currentTimeMillis())));
+                    candidate = fetchFromGithubReleaseApi();
+                } catch (Exception apiErr) {
+                    Log.w(TAG, "GitHub API failed, trying latest redirect: " + apiErr);
+                    try {
+                        candidate = fetchFromLatestRedirect();
+                    } catch (Exception redirErr) {
+                        Log.w(TAG, "Release redirect failed, trying raw version.json: " + redirErr);
+                        candidate = parseInfoJson(new JSONObject(httpGet(RAW_VERSION_URL + "?t=" + System.currentTimeMillis())));
+                    }
                 }
                 if (candidate != null) {
                     saveCached(app, candidate);
@@ -298,7 +347,18 @@ public final class UpdateChecker {
     /** Shows an un-dismissible mandatory update dialog. Users cannot proceed until updated. */
     public static void showForcedDialog(Activity a, Info info) {
         if (a == null || a.isFinishing() || a.isDestroyed()) return;
-        if (shown != null && shown.isShowing()) return;
+
+        AdPopup.dismissIfShowing();
+        AutomationService svc = AutomationService.getInstance();
+        if (svc != null && svc.isRunning()) {
+            svc.stopAutomation("Update required");
+        }
+
+        if (shown != null && shown.isShowing()) {
+            if (shown.getOwnerActivity() == a) return;
+            try { shown.dismiss(); } catch (Exception ignored) {}
+        }
+
         String verLabel = info.versionName != null && !info.versionName.isEmpty()
                 ? "v" + info.versionName + (info.buildNumber > 0 ? " (#" + info.buildNumber + ")" : "")
                 : (info.buildNumber > 0 ? "#" + info.buildNumber : "");
@@ -314,20 +374,15 @@ public final class UpdateChecker {
                 .setNeutralButton(L.t(a, "GitHub Release"), null);
 
         AlertDialog dlg = b.create();
+        dlg.setOwnerActivity(a);
         dlg.setCanceledOnTouchOutside(false);
         dlg.setOnKeyListener((d, keyCode, event) -> keyCode == KeyEvent.KEYCODE_BACK);
         dlg.setOnDismissListener(d -> { if (shown == d) shown = null; });
         shown = dlg;
         dlg.show();
 
-        // Override button listeners after show() so tapping either button never dismisses the lock.
-        dlg.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
-            if (info.url != null && info.url.endsWith(".apk")) {
-                ApkInstaller.start(a, info);
-            } else {
-                openDownload(a, info);
-            }
-        });
+        // Override button listeners after show() so tapping either button never dismisses the update lock.
+        dlg.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> ApkInstaller.start(a, info));
         dlg.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener(v -> openDownload(a, info));
     }
 
